@@ -1,0 +1,70 @@
+# Dependencies for the LLM-reasoning experiment harness.
+#
+# Versions checked against PyPI on 2026-07-29: transformers 5.14.1,
+# datasets 5.0.1, bitsandbytes 0.50.0. Ranges (not exact pins) are used for the
+# HuggingFace stack because Kaggle's image already ships a mutually-compatible
+# torch/numpy/transformers set and force-reinstalling any of them breaks the
+# precompiled ABI (the classic "numpy.dtype size changed" crash).
+#
+# ---------------------------------------------------------------------------
+# ALREADY PREINSTALLED ON THE KAGGLE PYTHON IMAGE - DO NOT REINSTALL:
+#   torch, numpy, pandas, pyarrow, matplotlib, tqdm, pyyaml, scipy,
+#   huggingface_hub, transformers, datasets, accelerate
+# Kaggle pins these against its CUDA build. `pip install -U torch` or
+# `pip install numpy==...` will corrupt the environment. Run the environment
+# check cell in notebooks/kaggle_runner.ipynb and only install what is missing.
+#
+# NOT preinstalled on Kaggle, install explicitly when needed:
+#   bitsandbytes (4-bit NF4), math-verify (math grading), vllm (optional)
+# ---------------------------------------------------------------------------
+
+# --- core harness (pure python, negligible install cost) -------------------
+pyyaml>=6.0,<7
+tqdm>=4.66
+
+# --- HuggingFace stack ----------------------------------------------------
+# transformers 5.x renamed `from_pretrained(torch_dtype=)` to `dtype=`;
+# src/models.py introspects the signature and supports both, so 4.5x also works.
+transformers>=4.51,<6
+datasets>=3.0,<6
+huggingface_hub>=0.34
+# Required for device_map="auto" sharding across the 2x T4 configuration.
+accelerate>=1.1.0
+# Some tokenizers (Llama/Gemma-family) need these; cheap and avoids a rerun.
+sentencepiece>=0.2.0
+protobuf>=4.25
+
+# --- numerics / analysis --------------------------------------------------
+numpy>=1.26,<3
+matplotlib>=3.8,<4
+
+# --- answer grading -------------------------------------------------------
+# sympy is the always-available fallback for math equivalence.
+sympy>=1.13
+# math-verify is the preferred grader (faster and stricter on LaTeX). Optional:
+# src/answers.py falls back to sympy, then to regex normalisation, and reports
+# which backend was actually used via grader_backend_name().
+math-verify>=0.5.2
+
+# --- 4-bit quantization ---------------------------------------------------
+# NF4 on T4 (sm75) and P100 (sm60): 0.50.0 lists sm60 as the minimum and sm75+
+# as recommended, so 4-bit on a P100 is the riskier of the two paths.
+# Linux-only marker keeps `pip install -r requirements.txt` working on a Windows
+# dev box, where the harness is exercised with MockBackend on CPU.
+bitsandbytes>=0.50.0; platform_system == "Linux"
+
+# --- analysis / GLMM ------------------------------------------------------
+statsmodels>=0.14,<1
+
+# --- tests ----------------------------------------------------------------
+pytest>=8.0
+
+# --- OPTIONAL: vLLM throughput path --------------------------------------
+# Deliberately NOT a dependency. vLLM is a large install that frequently
+# conflicts with Kaggle's pinned torch, and the HF transformers path is the
+# default. Install it only after the transformers baseline works:
+#   pip install vllm
+# then run with `--backend vllm` (or `--backend auto`). Notes for the free tier:
+#   * On 2x T4 use tensor_parallel_size=2 and often enforce_eager=true (Turing).
+#   * vLLM's V1 engine does not support bitsandbytes, so 4-bit implies the HF path.
+# vllm>=0.8

@@ -1,0 +1,23 @@
+# AIME-style competition math: very hard, very long solutions, and only ~30
+# items per year, so run the full split (no subsample) and report wide CIs.
+# With n<=30 examples a single flipped answer moves accuracy by >3 points;
+# self-consistency plus multiple seeds is essentially mandatory here.
+defaults: base.yaml
+
+data:
+  name: aime
+  split: test
+  subset: "2024"
+  subsample: null
+  subsample_seed: 1234
+
+strategy:
+  name: cot_zeroshot
+
+generation:
+  max_new_tokens: 2048
+  temperature: 0.0
+  batch_size: 2
+
+tags:
+  paper_cell: aime_baseline

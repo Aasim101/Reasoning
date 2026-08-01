@@ -1,0 +1,695 @@
+% ============================================================================
+%  The Self-Consistency Ceiling Is Not a Model Constant:
+%  Modal Answers Are a Model x Elicitation Property
+%
+%  STYLE NOTE / HOW TO SWAP IN A CONFERENCE STYLE
+%  ----------------------------------------------
+%  This file compiles standalone with the stock `article` class so that it
+%  builds anywhere (`pdflatex main && bibtex main && pdflatex main x2`) with no
+%  downloaded style files.
+%
+%  To switch to a conference format:
+%    * NeurIPS : download neurips_2026.sty, then replace the
+%                \documentclass line with \documentclass{article} and add
+%                \usepackage[preprint]{neurips_2026}
+%    * ICLR    : download iclr2027_conference.sty + .bst, replace with
+%                \usepackage{iclr2027_conference,times}
+%    * ICML    : download icml2026.sty, use \usepackage[accepted]{icml2026}
+%    * ACL/EMNLP : download acl.sty + acl_natbib.bst, use
+%                \documentclass[11pt]{article} \usepackage[]{acl}
+%  In every case, delete the \geometry{...} line below (the conference style
+%  sets the page geometry itself) and keep everything from \begin{document} on.
+% ============================================================================
+\documentclass[11pt]{article}
+
+\usepackage[margin=1in]{geometry}
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+\usepackage{times}
+\usepackage{amsmath,amssymb,amsthm}
+\usepackage{graphicx}
+\usepackage{booktabs}
+\usepackage{multirow}
+\usepackage{xcolor}
+\usepackage{url}
+\usepackage[numbers,sort&compress]{natbib}
+\usepackage[colorlinks=true,linkcolor=blue,citecolor=blue,urlcolor=blue]{hyperref}
+\usepackage{algorithm}
+\usepackage{algpseudocode}
+
+% --- \todo marker (self-contained; no todonotes dependency) -----------------
+\newcommand{\todo}[1]{\textcolor{red}{\textbf{[TODO: #1]}}}
+\newcommand{\placeholder}[1]{\textcolor{gray}{\textit{#1}}}
+
+% --- notation ---------------------------------------------------------------
+\newcommand{\pmode}{\pi_{\mathrm{mode}}}
+\newcommand{\phat}{\hat{p}}
+\newcommand{\rdis}{\rho_{\mathrm{disatt}}}
+
+\title{\bfseries The Self-Consistency Ceiling Is Not a Model Constant:\\
+Modal Answers Are a Model\,$\times$\,Elicitation Property}
+
+\author{
+  Anonymous Author(s) \\
+  Affiliation \\
+  \texttt{email@domain}
+}
+
+\date{}
+
+\begin{document}
+\maketitle
+
+% ============================================================================
+\begin{abstract}
+% ============================================================================
+Recent work bounds self-consistency by a \emph{modal ceiling} $\pmode$: the
+fraction of items whose plurality answer is correct. Coverage keeps climbing;
+selection plateaus. That wedge is the \emph{identifiability gap}. The
+literature treats $\pmode$ as a property of a model on a benchmark.
+Contemporaneous analyses show per-item difficulty is already substantially
+prompt-attributable on log-prob-scored benchmarks
+\citep{brittlebench2026,tee2026} and that unstable difficulty labels corrupt
+downstream filters \citep{hardunreached2026}. We ask whether prompt sensitivity
+reaches the \textbf{mode} in \textbf{sampled chain-of-thought} on
+free-generation math---where inference variance does not vanish---and whether
+spreading a fixed token budget across configurations can \emph{raise} the
+plateau that i.i.d.\ resampling structurally cannot move.
+
+On a fully crossed grid over items, three Qwen sizes, a Llama cross-family
+control, and three core semantics-preserving configurations (c0--c2;
+independent-seed replicates), we measure $\pmode$ per configuration, mode
+reordering on small-margin items, and configuration-diversified voting (CDV),
+which repartitions an existing corpus at zero extra GPU cost. A crossed
+binomial GLMM provides supporting variance decomposition
+\citep{tee2026,prompteval2024}. Primary predictions: $\pmode$ varies by ${>}3$
+points across core configurations (P4); plug-in $\pmode$(CDV) exceeds
+$\pmode$(c0) at matched token budget while temperature-diversified SC (B4)
+does not (P5/F3). Mode transitions split into corrective vs.\ destructive
+components (Figure~F6).
+Our results imply that reported reasoning boundaries are properties of a
+model--prompt pair, not of a model alone, and that configuration diversity is
+an orthogonal axis to resampling depth for moving the modal ceiling.
+\end{abstract}
+
+% ============================================================================
+\section{Introduction}
+% ============================================================================
+
+Progress in language-model reasoning is increasingly mediated by how a model
+\emph{selects} an answer under sampling. Compute-optimal test-time scaling
+bins items by estimated difficulty~\citep{snell2024scaling}; adaptive
+self-consistency stops when a vote looks decided~\citep{aggarwal2023adaptive,li2024esc};
+and the analyses that explain why extra samples stop helping bound selection by
+the \emph{modal-hit rate} $\pmode$---the fraction of items whose plurality
+answer is correct~\citep{brown2024monkeys,blendasc2025,certifiedsc2025}.
+More i.i.d.\ samples estimate the mode more precisely; they cannot change which
+class is modal. If elicitation configuration changes the mode, then $\pmode$ is
+not a model constant and there is headroom that resampling structurally cannot
+access.
+
+That ``elicitation matters'' is no longer an open question at the item level.
+\citet{brittlebench2026} decompose benchmark variance into task difficulty and
+semantics-preserving prompt sensitivity and find the latter can account for
+roughly half of total variance on multiple-choice suites scored deterministically.
+\citet{tee2026} fit crossed random effects with an explicit item\,$\times$\,prompt
+interaction by REML. \citet{hardunreached2026} show sampling-derived hardness
+labels are unstable and corrupt RL filters and curricula. What these works do
+\textbf{not} examine is whether sensitivity reaches the \textbf{mode} on
+\textbf{sampled} chain-of-thought for free-generation math, where binomial noise
+is load-bearing, or whether spreading budget across configurations can raise
+$\pmode$ rather than merely approach it faster.
+
+We therefore ask three questions. \textbf{(Q1)} Does $\pmode$ move across
+semantics-preserving elicitation configurations for the same item and model?
+\textbf{(Q2)} If so, is the movement explained by \emph{reordering} of top
+answer classes on small-margin items? \textbf{(Q3)} Can
+\emph{configuration-diversified voting} (CDV)---pooling a fixed token budget
+across configurations---raise the plateau above single-configuration
+self-consistency, while temperature-diversified sampling at matched budget does
+not? Supporting measurement (Q4): how much item\,$\times$\,configuration
+structure exists in a crossed binomial GLMM, and do difficulty labels transfer?
+
+Answering these requires a design that most prior work does not have. A fully
+crossed item\,$\times$\,model\,$\times$\,configuration grid is necessary to
+attribute variance. Independent-seed replicates within a single configuration
+are necessary because $\phat = k/N$ is a noisy estimate and any two estimates
+will disagree somewhat for purely binomial reasons; without a measured noise
+floor, an ``interaction'' is unfalsifiable. And a budget-matched comparison in
+\emph{output tokens} rather than sample count is necessary because
+configurations induce chains of different lengths. We build all three in.
+
+\paragraph{Contributions.}
+\begin{enumerate}\itemsep2pt
+  \item \textbf{$\pmode$ is configuration-relative.} We measure the modal-hit
+    rate per elicitation configuration on MATH-500 and GSM-Symbolic with sampled
+    CoT, across a size ladder and two families (Figure~F4).
+  \item \textbf{A mechanism: mode reordering.} Configuration changes reorder top
+    answer classes on small-margin items; we separate corrective from
+    destructive transitions (Figure~F6).
+  \item \textbf{CDV raises the plateau.} Configuration-diversified voting spreads
+    a fixed token budget across configurations and is pre-registered to raise
+    plug-in $\pmode$ above single-configuration self-consistency, unlike
+    temperature-diversified sampling (Figure~F5; primary test P5).
+  \item \textbf{Supporting measurement.} Crossed binomial GLMM variance
+    decomposition \citep{tee2026}, disattenuated transfer, and hard-subset
+    Jaccard against a seed null (Figures~F1--F3), calibrated by a
+    parametric-bootstrap null on synthetic data.
+  \item \textbf{Applied consequence.} Transferred-difficulty allocation degrades
+    when difficulty is estimated in one configuration and spent in another; curriculum
+    RL discussed as implication only \citep{hardunreached2026}.
+  \item \textbf{Pre-registered predictions} with individually decisive
+    falsification conditions (F3 primary); stated negative-result paths.
+\end{enumerate}
+
+\paragraph{Scope and honesty about what is new.} We do not claim to be the first
+to show that prompts affect per-item outcomes: BrittleBench, TEE, PromptEval,
+and FormatSpread establish prompt sensitivity and variance decomposition in
+adjacent settings \citep{brittlebench2026,tee2026,prompteval2024,sclar2024formatspread,mizrahi2024multiprompt}.
+Our claim is that sensitivity reaches the \emph{mode}---the object that caps
+self-consistency---on \emph{sampled} reasoning chains, and that this is
+\emph{exploitable} without additional generation.
+
+% ============================================================================
+\section{Related Work}
+\label{sec:related}
+% ============================================================================
+
+\subsection{Chain-of-thought and its structural variants}
+
+Chain-of-thought prompting~\citep{wei2022cot} and its zero-shot
+form~\citep{kojima2022zeroshot} established that eliciting intermediate steps
+improves reasoning accuracy, and self-consistency~\citep{wang2023selfconsistency}
+established that sampling several chains and taking a plurality vote improves
+it further. A family of structural elaborations followed:
+least-to-most decomposition~\citep{zhou2023leasttomost}, tree-~\citep{yao2023tot}
+and graph-structured~\citep{besta2024got} search over partial thoughts, and
+program-mediated reasoning that offloads arithmetic to an
+interpreter~\citep{chen2023pot,gao2023pal}. Later work tempered the picture:
+\citet{sprague2025tocot} find that CoT's benefit is concentrated on
+mathematical and symbolic tasks and is small or negative elsewhere, and much of
+the apparent advantage of elaborate search structures narrows once sampling
+budget is matched. \textbf{What remains unresolved:} the community still lacks
+a principled account of \emph{which} items benefit from which structure, and
+almost all such accounts are stated in terms of a per-item difficulty that, we
+argue here, is itself unstable.
+
+\subsection{Test-time compute scaling and its ceilings}
+
+Our benchmarks are \textbf{MATH-500}~\citep{math500} (headline) and
+GSM-Symbolic~\citep{mirzadeh2025gsmsymbolic}, with GSM8K~\citep{cobbe2021gsm8k}
+as a secondary replicate. Verifier-reranked sampling~\citep{cobbe2021gsm8k}, process
+supervision~\citep{lightman2024verify,uesato2022process,wang2024mathshepherd},
+and compute-optimal allocation between sequential revision and parallel
+sampling~\citep{snell2024scaling,wu2024inference} form the backbone of
+test-time scaling; \citet{brown2024monkeys} showed that coverage---the
+probability that at least one of $n$ samples is correct---keeps rising over
+orders of magnitude of $n$, while plurality voting and learned reward models
+plateau. \citet{muennighoff2025s1} showed that a very simple budget-forcing
+scheme captures much of the benefit. Surveys now organise the
+area along what/how/where/how-well axes~\citep{zhang2025ttssurvey} and by
+subproblem topology~\citep{subproblemsurvey2025}, and a large matched-condition
+study finds that no single strategy dominates across models and difficulty
+regimes~\citep{artofscaling2025}.
+
+The most directly relevant recent development is the explanation of the
+plateau. \citet{brown2024monkeys} showed coverage keeps rising while plurality
+voting plateaus; subsequent work formalises a \emph{modal ceiling}:
+plurality voting converges to the mode, so selection accuracy saturates at
+$\pmode$; the gap to rising coverage is the \emph{identifiability gap}
+\citep{blendasc2025,certifiedsc2025,samplecomplexity2025}.
+\textbf{What remains unresolved:}
+all of this conditions on a per-item answer distribution under a \emph{fixed}
+elicitation setting. \citet{bay2026modal} estimate run-to-run variance within a
+configuration ($\rho_w \approx 0$) but never vary the prompt; whether $\pmode$
+is configuration-relative is the step we test.
+
+\subsection{Prompt sensitivity and variance decomposition}
+\label{sec:related-prompt}
+
+Three 2026 lines establish that per-item outcomes are prompt-attributable and
+that evaluation pipelines must model crossed facets. \textbf{BrittleBench}
+\citep{brittlebench2026} decomposes binary correctness variance into task
+difficulty and semantics-preserving prompt sensitivity on an item\,$\times$\,perturbation
+matrix; inference is deterministic (log-prob scoring), so the inference-variance
+term vanishes. \textbf{TEE} \citep{tee2026} fits crossed random effects---including
+item\,$\times$\,prompt---by REML and uses decision studies on aggregate benchmark
+scores. \textbf{PromptEval} \citep{prompteval2024} estimates performance
+distributions across prompt templates with an IRT-style model on the joint
+(item, template) matrix. Earlier aggregate work
+\citep{sclar2024formatspread,mizrahi2024multiprompt,alzahrani2024leaderboard}
+showed format and template choice move rankings by large margins.
+
+\textbf{What remains unresolved} is the intersection with \emph{sampled}
+chain-of-thought on free-generation math and with the \emph{mode}. BrittleBench
+does not report $\pmode$, reorder rates, or CDV; TEE's estimand is
+$\mathrm{Var}(\hat\theta)$ at benchmark scale---item\,$\times$\,prompt is a
+nuisance that averages away in aggregate CIs, whereas adaptive test-time compute,
+hard-subset curation, and IRT consumers use \emph{per-item} parameters one at a
+time. \citet{facetnoise2026,cyclicjudge2026} show that under G-theory facet decompositions,
+repeats are the cheap facet and paraphrases/models buy more reliability per
+query---the allocation-theoretic sibling of ``i.i.d.\ resampling cannot move the
+plateau,'' but on brand sentiment without modes or reasoning. \citet{hardunreached2026}
+establish unstable hardness labels along the stochastic-vs-deterministic axis;
+we study the \emph{configuration} axis and whether it reaches the selection
+bottleneck. Adjacent aggregation devices---paraphrase
+voting~\citep{paraconsistency2024,zhou2024paraphrase}---are baselines, not the
+measurement target.
+
+\subsection{Long chain-of-thought, RL for reasoning, and the elicitation debate}
+
+Reasoning-specialised models trained with reinforcement learning on verifiable
+rewards~\citep{deepseekr1_2025,shao2024deepseekmath} produce long
+chains-of-thought and large gains, and distillation transfers much of the
+behaviour into small models with remarkably little
+data~\citep{muennighoff2025s1,ye2025limo}. A pointed debate followed about what
+RL actually contributes. \citet{yue2025rlvr} argue via pass@$k$ analysis that
+RLVR largely sharpens the base model's existing distribution rather than
+extending its reach, and \citet{diversitycollapse2025} formalise a related
+bias--variance decomposition of pass@$k$, showing that supervised finetuning
+improves pass@1 while collapsing generation diversity and degrading pass@$k$,
+and that weight interpolation partially recovers both. Theoretically,
+self-improvement has been framed as \emph{sharpening} a fixed base
+policy~\citep{huang2025sharpening}, and inference-time methods have been
+recast as sharpening the answer marginal
+directly~\citep{marginalsharpening2026}. \textbf{What remains unresolved:} the
+sharpening framing implies that the ordering of candidate answers is doing all
+the work, but the stability of that ordering---under scale, under
+post-training, and under elicitation---has not been measured. Our
+mode-reordering analysis (\S\ref{sec:method-reorder}) is the missing
+measurement for the elicitation axis.
+
+\subsection{Faithfulness, premature commitment, and what the chain is for}
+
+A parallel literature asks whether the chain reflects the computation.
+\citet{turpin2023unfaithful} show that models silently follow biasing features
+in the context while producing unrelated rationales;
+\citet{lanham2023measuring} introduce the truncation and corruption probes that
+have become standard; and \citet{lyu2023faithful} propose constrained
+formulations that are faithful by construction. Latent-space variants ask
+whether the tokens are needed at
+all~\citep{hao2024coconut,pfau2024filler,goyal2024pause}. Recent work sharpens
+the commitment question: \citet{prematureconfidence2026} probe at evenly spaced
+truncation points, define a premature-confidence score from the resulting
+confidence trajectory, show it predicts logical flaws, and mitigate it with a
+shaped RL objective; \citet{precotprobe2026} show that a linear probe on
+pre-CoT activations predicts the final answer with high AUC and that the
+direction is causal under steering. \citet{matcha2025} show the converse
+decoupling---answers that stay correct while the rationale collapses under
+imperceptible input perturbation. \textbf{What remains unresolved:} these
+results establish that a model often has an answer in mind early, but they do
+not connect that to the \emph{selection} bottleneck at the heart of test-time
+scaling. If the answer is fixed early, then what a configuration change
+perturbs is that early commitment, which is precisely why it can move a mode
+that resampling cannot.
+
+\subsection{Efficiency, overthinking, and adaptive compute}
+
+Reasoning models overspend on easy items~\citep{overthinking2024} and
+under-explore on hard ones~\citep{underthinking2025}; surveys catalogue the
+resulting efficiency
+literature~\citep{stopoverthinking2025}. Length-controlled policy
+optimisation~\citep{l1_2025} and budget-forcing~\citep{muennighoff2025s1} give
+explicit control over chain length. On the parallel axis,
+adaptive-consistency~\citep{aggarwal2023adaptive} and early-stopping
+self-consistency~\citep{li2024esc} halt when the vote is decided;
+Certaindex/Dynasor~\citep{fu2024certaindex} generalise this to an
+algorithm-agnostic ``answer stabilisation'' signal used for scheduling;
+Blend-ASC~\citep{blendasc2025} allocates samples across questions to optimise
+sample efficiency; \citet{certifiedsc2025} provide sequential certificates; and
+\citet{adaptivettc2026} study difficulty-conditioned budget allocation directly.
+\textbf{What remains unresolved:} every one of these estimates a per-item
+quantity in one setting and consumes it in another, and none validates that the
+estimate transfers. This is the applied consequence we measure.
+
+\subsection{Robustness, perturbation, and the reasoning-versus-memorisation debate}
+
+\citet{mirzadeh2025gsmsymbolic} introduced templated variants of GSM8K and
+reported both high variance across instantiations of the same template and a
+large drop when an irrelevant clause is added (GSM-NoOp), arguing for
+pattern-matching over formal reasoning. Contamination
+audits~\citep{zhang2024gsm1k}, counterfactual
+evaluation~\citep{wu2024reciting}, premise-order
+effects~\citep{chen2024premise} and the reversal
+curse~\citep{berglund2024reversal} point the same direction, while
+compositionality analyses~\citep{dziri2023faithfate} give a mechanistic account
+of multi-step failure. The debate is live: puzzle-complexity critiques and
+their rebuttals continue, and 2026 replications of GSM-NoOp on frontier models
+suggest that a substantial part of the original effect reflects models
+reasonably treating ambiguous clauses as informative rather than failing to
+reason \todo{cite the 2026 audited replication once a peer-reviewed version
+exists; currently only a non-archival write-up, marked unverified}. Follow-up
+work finds that program-mediated reasoning does not repair GSM-Symbolic
+robustness~\citep{reasoningcodeboth2026}. \textbf{What remains unresolved:}
+these studies compare accuracy across perturbations of the \emph{problem}. Ours
+holds the problem fixed and perturbs only the \emph{elicitation}, which
+isolates a different and, we argue, more troubling source of instability,
+because it cannot be blamed on the item.
+
+\subsection{Self-correction, verification, and aggregation beyond frequency}
+
+Iterative refinement with self-generated feedback~\citep{madaan2023selfrefine}
+and multi-agent debate~\citep{du2024debate} were early attempts to convert extra
+inference into extra accuracy without a verifier, but intrinsic self-correction
+without external feedback does not reliably improve
+reasoning~\citep{huang2024cannotselfcorrect,kamoi2024whencan}, which is part of
+why the field turned to verifiers and to better aggregation. Beyond plain
+plurality voting there is now a dense cluster: universal
+self-consistency~\citep{chen2023universal}, program-verified
+voting~\citep{prove2024}, semantic weighting of reasoning
+paths~\citep{weightedreasoning2024}, confidence-informed voting and its
+efficient variant~\citep{veccisc2026}, learned rerankers over answer-level
+features~\citep{risc2026}, radial consensus scoring for
+best-of-$N$~\citep{rcs2026}, and best-of-majority
+hybrids~\citep{bestofmajority2025}.
+Diversity-side interventions are covered in
+\S\ref{sec:related-prompt}. \textbf{What remains unresolved:}
+this literature searches for a better \emph{selector} given a fixed sample
+pool. We ask a prior question---what determines the pool's mode in the first
+place---and show that the answer includes a factor the selector literature
+treats as fixed. The strongest of these methods are our baselines.
+
+\subsection{Uncertainty, calibration, and evaluation methodology}
+
+Confidence signals for reasoning include self-evaluated
+correctness~\citep{kadavath2022know}, semantic
+entropy~\citep{kuhn2023semantic,farquhar2024semantic}, verbalised
+confidence~\citep{lin2022teaching,tian2023just}, and vote share itself. On the
+evaluation side, the field has become considerably more careful:
+\citet{miller2024errorbars} argues for routine interval reporting,
+\citet{hochlehnert2025sober} document how much of recent reported progress on
+small reasoning benchmarks is seed variance, \citet{dontpassk2025} propose
+Bayesian posterior reporting in place of pass@$k$,
+\citet{coverattau2025} show that pass@$k$ is biased toward low-reliability
+``lucky hits'' and propose a reliability-controlled alternative, and
+\citet{falsepositives2025} show that final-answer matching admits false
+positives at a rate that materially lowers the true inference-scaling ceiling.
+Psychometric approaches fit item difficulty explicitly and use it for adaptive
+testing and routing~\citep{atlas2025,irtnet2025,irtrouter2025,psnirt2026}, and
+\citet{kim2025correlated} show that errors are strongly correlated across
+models, capping ensembles---an effect formalised as a co-failure
+ceiling~\citep{cofailure2026}. \textbf{What remains unresolved:} the
+psychometric line assumes a unidimensional item difficulty and validates it
+largely on non-reasoning benchmarks. We test that assumption where it is most
+consequential, and we adopt the evaluation hygiene this literature demands
+throughout.
+
+% ============================================================================
+\section{Method}
+\label{sec:method}
+% ============================================================================
+
+Our design is deliberately austere: a single sampling corpus, from which every
+quantity in the paper is computed offline. This is what makes the study
+reproducible on a free-tier GPU allocation, and it means the intervention we
+propose is evaluated without generating a single additional token.
+
+\subsection{Setup and notation}
+
+Let $\mathcal{I}$ be a set of items, $\mathcal{M}$ a set of models,
+$\mathcal{C}$ a set of elicitation configurations, and $\mathcal{S}$ a set of
+sampling seeds. For each cell $(i,m,c,s)$ we draw $N$ chains-of-thought,
+extract a final answer from each, canonicalise it into an equivalence class,
+and record whether it is correct. Write $k_{imcs}$ for the number of correct
+samples and
+\begin{equation}
+\phat_{imcs} \;=\; \frac{k_{imcs}}{N},
+\qquad
+z_{imcs} \;=\; \log\frac{k_{imcs}+\tfrac12}{\,N-k_{imcs}+\tfrac12\,},
+\end{equation}
+where $z$ is the Haldane--Anscombe-corrected empirical logit, whose sampling
+variance is approximately $v_{imcs} = (k+\tfrac12)^{-1} + (N-k+\tfrac12)^{-1}$.
+We work on the logit scale because $\phat$ is a bounded proportion whose
+variance depends on its mean, which would otherwise contaminate a variance
+decomposition.
+
+An \emph{elicitation configuration} perturbs everything except mathematical
+content: system prompt, few-shot order (at fixed shot count), and related axes.
+Three \textbf{core} configurations $\{c_0,c_1,c_2\}$ enter the crossed
+grid and CDV; parse-variant ($c_3$), few-shot ($c_4$/$c_{4a}$/$c_{4b}$), and
+temperature ($c_5$) are reported on separate axes. Paraphrase ($c_6$) supports baseline
+B5 only.
+
+\paragraph{Modal ceiling (self-contained).} For item $i$, model $m$,
+configuration $c$, let $a^\star$ be the plurality answer class over $N$
+samples. The \emph{modal-hit rate} is
+$\pmode(m,c)=\frac{1}{|\mathcal I|}\sum_i \mathbf 1[a^\star\text{ correct}]$.
+The \emph{identifiability gap} is $\mathrm{pass@}N-\pmode$. We cite
+\citet{brown2024monkeys} for the coverage--selection distinction and
+\citet{bay2026modal} for the observation that within-configuration run-to-run
+variance is negligible; we measure $\pmode$ ourselves.
+
+\subsection{Supporting measurement: crossed binomial GLMM}
+\label{sec:method-variance}
+
+Following \citet{tee2026,prompteval2024}, we fit
+\begin{equation}
+k_{imc} \sim \mathrm{Binomial}(N, p_{imc}), \quad
+\mathrm{logit}(p_{imc}) = \mu + a_i + b_m + g_c
+  + (ab)_{im} + (ag)_{ic} + (bg)_{mc},
+\end{equation}
+with crossed random effects by REML. The item\,$\times$\,configuration
+component $(ag)_{ic}$ is supporting evidence, calibrated against a
+parametric-bootstrap null (no interaction, marginal $p_i$ only). A legacy
+method-of-moments decomposition on Haldane logits is appendix robustness only.
+
+\subsection{Disattenuated difficulty transfer}
+\label{sec:method-transfer}
+
+A raw correlation between $\phat$ under two configurations understates
+agreement, because both estimates are noisy. The seed replicates let us remove
+that attenuation honestly. We first compute the reliability $r_{mm}$ as the
+mean pairwise rank correlation of $\phat$ across independent seeds within the
+reference configuration; this is the correlation that measurement noise alone
+permits. We then report, for each configuration pair, the raw rank correlation
+and the disattenuated value $\rdis = \rho_{\mathrm{raw}} / r_{mm}$. The
+comparison of interest is $\rdis$ against $1$: a value near one means
+difficulty transfers and our claim is refuted; a value well below one means the
+disagreement is structural rather than statistical. The same construction gives
+transfer across model sizes and across model families, which calibrates the
+configuration effect against effects the field already accepts as real.
+
+We complement this with a set-level statistic that speaks directly to practice.
+Taking the bottom quartile of $\phat$ as the ``hard subset'', we compute its
+Jaccard overlap across configuration pairs and, as the null, across seed pairs.
+The difference is the excess instability: the fraction of a curated hard subset
+that is an artefact of the configuration in which it was curated.
+
+\subsection{Mechanism: mode reordering}
+\label{sec:method-reorder}
+
+Self-consistency returns the modal answer class; its ceiling is $\pmode$
+(\S\ref{sec:method}). We classify each item's mode transition across
+configuration pairs as benign, corrective, or destructive, and predict
+concentration on small top-two margins.
+
+\subsection{Intervention: configuration-diversified voting}
+\label{sec:method-cdv}
+
+Configuration-diversified voting (CDV) spends a fixed budget across $C$
+configurations instead of concentrating it in one, and takes the plurality over
+the pooled samples. An adaptive variant first spends a small probe budget per
+configuration and commits immediately when all configurations agree, spending
+the remainder only on disagreement. Both are computed by re-partitioning the
+existing corpus, so they cost nothing beyond the sampling already performed.
+
+\begin{algorithm}[t]
+\caption{Configuration-Diversified Voting (CDV)}
+\begin{algorithmic}[1]
+\Require item $i$, model $m$, token budget $B$, configuration set $\mathcal{C}_{\mathrm{use}}$
+\State $b \gets B / |\mathcal{C}_{\mathrm{use}}|$ \Comment{split by \emph{tokens}, not samples}
+\State $P \gets \emptyset$
+\For{$c \in \mathcal{C}_{\mathrm{use}}$}
+  \State draw chains from cell $(i,m,c)$ without replacement until their cumulative output tokens reach $b$; add their answer classes to $P$
+\EndFor
+\State \Return $\arg\max_{a} \#\{a \in P\}$
+\end{algorithmic}
+\end{algorithm}
+
+All comparisons are matched on \emph{total generated output tokens}, not on
+sample count, because configurations induce chains of different lengths;
+reporting accuracy against $N$ would silently advantage whichever configuration
+is most verbose.
+
+The comparison that carries the scientific weight is CDV against
+single-configuration self-consistency and against temperature-diversified SC
+(B4) at matched tokens. \textbf{Primary test (P5/F3):} plug-in $\pmode$ from
+$N$ samples at $c_0$ vs.\ $\pmode$ from pooled $C_{\mathrm{use}}\times N$
+samples at CDV ($C_{\mathrm{use}}=3$ by default). Maj@$n$ curves are secondary; the small-budget overlap
+($\leq 24$ tokens) is labelled underpowered for plateau claims. We also report
+oracle best single configuration (B12) and decompose CDV gains into new modal
+mass vs.\ configuration selection.
+
+% ============================================================================
+\section{Experimental Setup}
+\label{sec:setup}
+% ============================================================================
+
+Our size ladder is the Qwen2.5 instruct family at 1.5B, 3B and
+7B~\citep{qwen25,qwen2}, with a Llama-3 cross-family control, evaluated on
+MATH-500~\citep{math500} (headline), GSM-Symbolic~\citep{mirzadeh2025gsmsymbolic},
+and GSM8K~\citep{cobbe2021gsm8k} (secondary replicate).
+
+\placeholder{The remainder of this section is finalised once the harness
+reports T1. It must state: exact HuggingFace model IDs and revisions; exact
+dataset IDs, splits and the persisted item-index file; the three core configuration
+definitions verbatim; sampling hyperparameters; the answer-canonicalisation
+procedure; the seed protocol; and measured wall-clock and token counts. All
+values are specified normatively in \texttt{docs/METHOD\_SPEC.md}; this section
+reports what was actually run, including any contingency that fired.}
+
+\todo{Insert Table T1 (\texttt{tab1\_setup.csv}) once generated.}
+
+\paragraph{Pre-registered predictions.}
+Primary cell: Qwen2.5-3B $\times$ MATH-500 unless noted.
+\begin{center}
+\small
+\begin{tabular}{@{}llp{7.5cm}@{}}
+\toprule
+ID & Tier & Prediction \\
+\midrule
+P4 & Primary & $\pmode$ varies by ${>}3$ accuracy points across core configurations. \\
+P5 & Primary & Plug-in $\pmode$(CDV) $>$ $\pmode$($c_0$) at matched tokens; B4 does not exceed $\pmode$($c_0$). \\
+P1 & Supporting & GLMM item$\times$config share exceeds parametric-bootstrap null 95th percentile. \\
+P2 & Supporting & $\rdis$ (or GLMM latent correlation) for config-pairs ${<}0.85$; $r_{mm}$ by difficulty quintile. \\
+P3 & Supporting & $J_{\mathrm{config}} \leq J_{\mathrm{seed}} - 0.10$ (interaction permutation $p{<}0.05$). \\
+P6 & Applied & Transferred-difficulty allocation (B9) loses to configuration-aware allocation. \\
+P7 & Gate & Item$\times$config share differs ${<}3$ pp fp16 vs.\ 4-bit; $\rdis$ differs ${<}0.05$ on 1.5B/3B. \\
+\bottomrule
+\end{tabular}
+\end{center}
+Falsification (individually decisive): \textbf{F3} plug-in $\pmode$(CDV)$\leq\pmode$($c_0$);
+\textbf{F4} $\pmode$ range $\leq 3$ pp; \textbf{F1} GLMM share $\leq 5\%$ and below null;
+\textbf{F2} $J_{\mathrm{config}} \geq J_{\mathrm{seed}} - 0.02$ (relative, not $J\geq 0.90$).
+Mark each supported/refuted after analysis.
+
+% ============================================================================
+\section{Results}
+\label{sec:results}
+% ============================================================================
+
+\placeholder{All content below is a placeholder tied to the artefact names
+defined in \texttt{docs/METHOD\_SPEC.md} \S9. Do not write prose here until the
+corresponding artefact exists.}
+
+\subsection{Modal ceilings across configurations (Q1)}
+\todo{Figure F4 (\texttt{fig4\_ceiling\_vs\_coverage.pdf}), Table T2. Lead Results. State P4.}
+
+\subsection{Configuration-diversified voting (Q3)}
+\todo{Figure F5, Table T5. Primary P5/F3: plug-in $\pmode$ comparison. B12 and gain decomposition.}
+
+\subsection{Mode reordering mechanism (Q2)}
+\todo{Figure F6. Corrective vs.\ destructive rates.}
+
+\subsection{Supporting measurement: variance and transfer (Q4)}
+\todo{Figures F1--F3, Tables T3--T4. GLMM primary; moment decomposition in appendix.}
+
+\subsection{Downstream cost of transferred difficulty}
+\todo{Table T6. B9 vs.\ configuration-aware allocation. P6. Curriculum RL as Discussion implication only.}
+
+% ============================================================================
+\section{Analysis}
+\label{sec:analysis}
+% ============================================================================
+
+\placeholder{Placeholders tied to named artefacts; write only against real
+numbers.}
+
+\paragraph{Which items are susceptible?}
+\todo{Relate reordering to the top-two answer margin. Show the predicted
+concentration of reorderings on small-margin items, or report its absence.}
+
+\paragraph{Mechanism: corrective versus destructive reordering.}
+\todo{Figure F6 (\texttt{fig6\_reordering.pdf}). Report the corrective and
+destructive rates by model size and discuss whether the net is positive and why.}
+
+\paragraph{Does scale reduce the interaction?}
+\todo{Compare the item$\times$configuration share across 1.5B / 3B / 7B and
+across families. This is the reviewer's ``does it scale?'' question; answer it
+with the trend, not with a single large model.}
+
+\paragraph{Distribution shift.}
+\todo{Figure F7 (\texttt{fig7\_shift.pdf}). Does symbolic perturbation amplify
+the item$\times$configuration interaction relative to the original benchmark?}
+
+\paragraph{Relationship to the modal-ceiling account.}
+\todo{Quantify how much of the identifiability gap of \citet{bay2026modal} is
+closed by configuration diversification, and how much remains for a verifier.}
+
+\paragraph{Reconciling with unidimensional IRT.}
+\todo{Report the degradation in unidimensional IRT fit when configuration is
+added as a crossed factor, and the variance share such models absorb as noise.}
+
+% ============================================================================
+\section{Limitations}
+% ============================================================================
+
+\begin{itemize}\itemsep2pt
+  \item \textbf{Model scale.} Every model we study runs on one or two 16\,GB
+    accelerators. We address extrapolation with a size ladder and two families
+    rather than a single large model, but we cannot rule out that the
+    item\,$\times$\,configuration interaction shrinks at frontier scale. The
+    trend across our ladder is the evidence we can offer, and we report it
+    whichever way it points.
+  \item \textbf{Configuration space is a sample, not a census.} Three core
+    configurations along semantics-preserving axes do not span elicitation settings. Estimates
+    are \textbf{conditional on our chosen configurations}, not lower bounds on a
+    broader population.
+  \item \textbf{Semantics preservation is argued, not proven.} We restrict the
+    core configurations to axes that do not touch the problem statement, and we
+    report the paraphrase axis separately for exactly this reason. A residual
+    worry remains that, for instance, a persona system prompt shifts the task
+    in some subtle way.
+  \item \textbf{Finite $N$.} With $N{=}24$ per cell, $\phat$ has non-trivial
+    binomial error. The seed-replicate arm measures and corrects for this, but
+    the correction is only as good as the replicate estimate, and components
+    near zero are subject to clamping bias.
+  \item \textbf{Benchmark breadth.} Headline results are on MATH-500 and
+    GSM-Symbolic; GSM8K is a secondary replicate (saturation and contamination).
+  \item \textbf{Contamination.} GSM8K contamination is item-specific; we lead
+    with MATH-500 and GSM-Symbolic and state the memorisation\,$\times$\,configuration
+    risk plainly.
+  \item \textbf{Answer canonicalisation.} Equivalence classes are defined by a
+    symbolic checker. Its errors propagate into the modal-hit rate. We report
+    extraction-failure rates and flag any cell above five percent.
+  \item \textbf{Numerical precision.} Weight quantisation is itself a
+    perturbation of the answer distribution, and this paper is about how
+    answer distributions respond to perturbation, so the two cannot be
+    casually separated. Specifically, quantisation raises perplexity, which
+    flattens next-token distributions, which shrinks the top-two answer-class
+    margin --- the very quantity our mechanism analysis turns on --- and so
+    would be expected to \emph{inflate} the interaction we report. We
+    therefore run the ladder at \texttt{fp16} and treat reduced precision as
+    a measured quantity rather than an assumption: the precision control
+    (Figure F8, \texttt{fig8\_precision\_control.pdf}; Table T7,
+    \texttt{tab7\_precision\_control.csv}) repeats the full decomposition at four-bit on the
+    two smaller rungs, where quantisation damage is relatively largest and
+    the extrapolation to the larger rung therefore runs in the favourable
+    direction. \todo{After the run: state whether the ladder was executed at
+    \texttt{fp16} or, if the backend fallback fired, uniformly at four bits;
+    in the latter case cite F8 as the licence and repeat the margin-invariance
+    result here.}
+\end{itemize}
+
+% ============================================================================
+\section{Conclusion}
+% ============================================================================
+
+\placeholder{Write after Results. The conclusion should state, in one
+paragraph, whether $\pmode$ was configuration-relative; whether CDV raised the
+modal plateau above single-configuration self-consistency; what mode reordering
+implies for adaptive test-time compute and curated hard subsets; and, if
+pre-registered predictions failed, the licensing negative result (reported
+ceilings are model properties after all).}
+
+\section*{Reproducibility Statement}
+All experiments are inference-only on open-weight models. Tier~A fits in
+\textbf{$\approx$12.5 GPU-hours}; Tier~B strengthening adds \textbf{$\approx$16.1 h}
+for item expansion, multi-config deep-$N$ (O2), and seed replicates at $c_1$
+(O2b). Total paper-critical generation is \textbf{$\approx$28.6 h} ($\approx$32 h
+with pilots). Full specification in \texttt{docs/METHOD\_SPEC.md}.
+
+\bibliographystyle{plainnat}
+\bibliography{references}
+
+\end{document}

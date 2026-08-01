@@ -1,0 +1,21 @@
+# Competition-style math. Long solutions: raise max_new_tokens and expect
+# ~2-3x the per-example time of GSM8K.
+defaults: base.yaml
+
+data:
+  name: math500
+  split: test
+  subset: null
+  subsample: 200
+  subsample_seed: 1234
+
+strategy:
+  name: cot_zeroshot
+
+generation:
+  max_new_tokens: 1024
+  temperature: 0.0
+  batch_size: 4
+
+tags:
+  paper_cell: math500_baseline

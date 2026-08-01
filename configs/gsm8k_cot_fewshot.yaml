@@ -1,0 +1,22 @@
+# Baseline cell: 4-shot chain-of-thought. Exemplars are hand-written (see
+# src/prompts.py) so they cannot leak benchmark test items.
+defaults: base.yaml
+
+data:
+  name: gsm8k
+  split: test
+  subset: main
+  subsample: 200
+  subsample_seed: 1234
+
+strategy:
+  name: cot_fewshot
+  params:
+    n_shots: 4
+
+generation:
+  max_new_tokens: 512
+  temperature: 0.0
+
+tags:
+  paper_cell: gsm8k_fewshot

@@ -1,0 +1,19 @@
+# Local environments
+.venv/
+venv/
+__pycache__/
+*.py[cod]
+.pytest_cache/
+.ipynb_checkpoints/
+
+# Experiment outputs. Results are data, not source: carry them between Kaggle
+# sessions as a zip / Kaggle Dataset, not through git.
+results/
+results_*/
+paper_assets/
+assets/
+*_bundle.zip
+
+# Prefetched weights and datasets
+models/
+hf_cache/

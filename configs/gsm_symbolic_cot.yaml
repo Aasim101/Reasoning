@@ -1,0 +1,28 @@
+# GSM-Symbolic: templated GSM8K variants, useful as a contamination-resistant
+# replicate of the GSM8K result.
+#
+# UNVERIFIED DATASET: the config/split names for apple/GSM-Symbolic could not be
+# confirmed offline. Run with --dry-run first; if the loader raises, fix the
+# DatasetSpec in src/datasets_.py rather than guessing at run time.
+#
+# Analysis note: instances generated from one template are NOT independent, so
+# bootstrap over `meta.template_id` rather than over instances when reporting
+# confidence intervals on this dataset.
+defaults: base.yaml
+
+data:
+  name: gsm_symbolic
+  split: test
+  subset: main
+  subsample: 150
+  subsample_seed: 1234
+
+strategy:
+  name: cot_zeroshot
+
+generation:
+  max_new_tokens: 512
+  temperature: 0.0
+
+tags:
+  paper_cell: gsm_symbolic

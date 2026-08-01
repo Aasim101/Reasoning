@@ -1,0 +1,65 @@
+# Shared defaults. Every other config starts with `defaults: base.yaml` and
+# overrides only what changes, so experiment cells stay diffable.
+#
+# Reminder on run identity: performance knobs (batch_size, device_map,
+# tensor_parallel_size, backend, and everything under `runtime`) are EXCLUDED
+# from the config hash, so switching hardware or backend mid-experiment still
+# resumes the same run. Semantic fields (model, dtype, quantization, sampling
+# params, dataset subsample, strategy params) are INCLUDED and a change starts a
+# new run directory.
+
+model:
+  # A 7B fp16 model is ~14GB and only just fits one 16GB T4 with a short
+  # context; prefer device_map=auto on T4x2, or load_in_4bit on a single GPU.
+  name_or_path: Qwen/Qwen2.5-7B-Instruct
+  backend: hf              # hf | vllm | auto | mock  (hf is the safe default)
+  dtype: float16           # T4 (sm75) and P100 (sm60) have no bf16 support
+  load_in_4bit: false
+  bnb_quant_type: nf4
+  bnb_double_quant: true
+  bnb_compute_dtype: float16
+  device_map: auto         # shards across both T4s when 2 GPUs are visible
+  trust_remote_code: false
+  use_chat_template: true
+  tensor_parallel_size: 1  # vLLM only; set 2 to use both T4s
+  gpu_memory_utilization: 0.90
+  enforce_eager: false
+
+generation:
+  max_new_tokens: 512
+  temperature: 0.0
+  top_p: 1.0
+  top_k: -1
+  repetition_penalty: 1.0
+  stop: []
+  logprobs: false
+  batch_size: 8
+
+data:
+  name: gsm8k
+  split: test
+  subset: main
+  subsample: 200           # papers on a 30 GPU-h/week budget must subsample
+  subsample_seed: 1234
+  shard_index: 0
+  num_shards: 1
+
+strategy:
+  name: cot_zeroshot
+  params: {}
+
+runtime:
+  out_dir: results
+  seed: 0
+  time_budget_hours: 8.0   # Kaggle kills the session at 12h; leave slack
+  reserve_minutes: 10.0
+  flush_every: 10
+  max_examples: null
+  log_level: INFO
+  log_every: 1
+  gpu_hour_multiplier: 1.0
+  continue_on_error: true
+  grade_after_run: true
+
+tags:
+  paper_cell: base

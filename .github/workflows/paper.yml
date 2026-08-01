@@ -1,0 +1,66 @@
+name: Build paper
+
+on:
+  push:
+    paths:
+      - 'paper/**'
+      - '.github/workflows/paper.yml'
+  pull_request:
+    paths:
+      - 'paper/**'
+      - '.github/workflows/paper.yml'
+  workflow_dispatch:
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Compile main.tex
+        uses: xu-cheng/latex-action@v3
+        with:
+          working_directory: paper
+          root_file: main.tex
+          latexmk_use_xelatex: false
+          args: -pdf -interaction=nonstopmode -halt-on-error -file-line-error
+
+      - name: Report undefined citations and references
+        if: always()
+        working-directory: paper
+        run: |
+          if [ ! -f main.log ]; then
+            echo "No main.log produced; the build failed before LaTeX ran."
+            exit 0
+          fi
+          # A missing bib key still yields a PDF, so grep for it explicitly:
+          # this is the failure mode that would otherwise reach a reviewer.
+          if grep -q "Citation .* undefined" main.log; then
+            echo "::error::Undefined citations found"
+            grep "Citation .* undefined" main.log
+            exit 1
+          fi
+          if grep -q "Reference .* undefined" main.log; then
+            echo "::error::Undefined references found"
+            grep "Reference .* undefined" main.log
+            exit 1
+          fi
+          echo "No undefined citations or references."
+
+      - name: Upload PDF
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: paper-pdf
+          path: paper/main.pdf
+          if-no-files-found: warn
+
+      - name: Upload LaTeX log on failure
+        if: failure()
+        uses: actions/upload-artifact@v4
+        with:
+          name: latex-log
+          path: |
+            paper/main.log
+            paper/main.blg
+          if-no-files-found: ignore

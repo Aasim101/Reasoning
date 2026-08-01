@@ -1,0 +1,32 @@
+defaults: base.yaml
+
+# Seed replicates at c1, 3B, MATH-500 (review §6.3).
+model:
+  name_or_path: Qwen/Qwen2.5-3B-Instruct
+  backend: auto
+  dtype: float16
+
+data:
+  name: math500
+  split: test
+  subsample: 200
+  subsample_seed: 20260729
+
+generation:
+  max_new_tokens: 1024
+
+strategy:
+  name: configured_sampling
+  params:
+    n_samples: 24
+    batch_calls: true
+
+elicitation:
+  id: c1
+
+runtime:
+  seed: 1
+
+tags:
+  paper_cell: E2_c1_replicate
+  tier: B

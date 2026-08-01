@@ -1,0 +1,21 @@
+# Ablation cell: no chain-of-thought. Isolates how much of the accuracy comes
+# from reasoning tokens rather than from the model's prior.
+defaults: base.yaml
+
+data:
+  name: gsm8k
+  split: test
+  subset: main
+  subsample: 200
+  subsample_seed: 1234
+
+strategy:
+  name: direct
+  params:
+    max_new_tokens: 32
+
+generation:
+  temperature: 0.0
+
+tags:
+  paper_cell: gsm8k_no_cot

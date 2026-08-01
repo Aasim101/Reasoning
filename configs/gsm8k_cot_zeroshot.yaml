@@ -1,0 +1,20 @@
+# Baseline cell: zero-shot chain-of-thought on GSM8K.
+# This is the reference baseline that significance tests compare against.
+defaults: base.yaml
+
+data:
+  name: gsm8k
+  split: test
+  subset: main
+  subsample: 200
+  subsample_seed: 1234
+
+strategy:
+  name: cot_zeroshot
+
+generation:
+  max_new_tokens: 512
+  temperature: 0.0
+
+tags:
+  paper_cell: gsm8k_baseline

@@ -1,0 +1,41 @@
+# Real-model smoke test with a ~135M model. Runs on CPU in a few minutes, or in
+# seconds on any GPU. Use it to validate the transformers path (chat template,
+# left padding, token accounting, stop sequences) before spending quota on a 7B.
+#
+#   python -m src.runner --config configs/smoke_tiny_model.yaml
+#
+# Needs `pip install transformers torch` and either internet or a prefetched
+# model directory (see scripts/prefetch_assets.py, then set model.local_path).
+defaults: base.yaml
+
+model:
+  name_or_path: HuggingFaceTB/SmolLM2-135M-Instruct
+  backend: hf
+  dtype: float32           # CPU has no fp16 kernels worth using
+  device_map: auto
+  use_chat_template: true
+
+generation:
+  max_new_tokens: 128
+  temperature: 0.0
+  batch_size: 2
+
+data:
+  name: toy
+  split: test
+  subset: null
+  subsample: 8
+  subsample_seed: 1234
+
+strategy:
+  name: cot_zeroshot
+
+runtime:
+  out_dir: results_smoke
+  run_name: smoke_tiny
+  time_budget_hours: 0.25
+  reserve_minutes: 1.0
+  flush_every: 2
+
+tags:
+  paper_cell: smoke

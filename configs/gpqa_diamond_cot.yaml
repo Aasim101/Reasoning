@@ -1,0 +1,28 @@
+# GPQA-Diamond: 198 expert-written science questions.
+#
+# GATED DATASET: you must accept the terms at
+# https://huggingface.co/datasets/Idavidrein/gpqa and expose a token as HF_TOKEN
+# (Kaggle: Add-ons -> Secrets) before this loads. The loader raises an
+# actionable error if the token is missing.
+#
+# Only 198 items, so the 95% CI is roughly +/-7 accuracy points; do not claim a
+# small improvement here without multiple seeds and a paired test.
+defaults: base.yaml
+
+data:
+  name: gpqa_diamond
+  split: train          # GPQA ships a single split named "train"
+  subset: gpqa_diamond
+  subsample: null
+  subsample_seed: 1234
+
+strategy:
+  name: cot_zeroshot
+
+generation:
+  max_new_tokens: 1024
+  temperature: 0.0
+  batch_size: 4
+
+tags:
+  paper_cell: gpqa_diamond

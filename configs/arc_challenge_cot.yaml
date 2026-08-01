@@ -1,0 +1,21 @@
+# ARC-Challenge: multiple choice, short answers. Cheap per example, so a larger
+# subsample buys tighter confidence intervals for little quota.
+defaults: base.yaml
+
+data:
+  name: arc_challenge
+  split: test
+  subset: ARC-Challenge
+  subsample: 300
+  subsample_seed: 1234
+
+strategy:
+  name: cot_zeroshot
+
+generation:
+  max_new_tokens: 384
+  temperature: 0.0
+  batch_size: 8
+
+tags:
+  paper_cell: arc_challenge

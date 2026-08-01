@@ -1,0 +1,1267 @@
+% ===========================================================================
+%  references.bib
+%
+%  VERIFICATION POLICY
+%  -------------------
+%  Every entry carries a tag recording how it was verified. See
+%  docs/CITATION_AUDIT.md for the per-entry audit table.
+%
+%    [V-ARXIV]  Author list and title taken verbatim from the arXiv metadata
+%               API (export.arxiv.org/api/query), which returns the canonical
+%               record for the latest version.
+%    [V-ACL]    Author list, title, venue and pages taken verbatim from the
+%               ACL Anthology's own BibTeX export (aclanthology.org/KEY.bib).
+%    [V-PUB]    Taken from another publisher of record (AAAI OJS, PMLR,
+%               Nature, ICLR proceedings site, ML Anthology/TMLR).
+%    [V-CANON]  Canonical, heavily cited work not re-fetched this session.
+%               High confidence; the author list is standard and stable.
+%
+%  NOTHING IN THIS FILE IS INVENTED. Where a source abbreviated a given name
+%  the arXiv or publisher record was used to expand it; where two sources
+%  disagreed the publisher of record won and the disagreement is noted.
+%
+%  All non-ASCII characters are LaTeX-escaped so the file builds under a
+%  non-UTF8 engine.
+% ===========================================================================
+
+
+% ---------------------------------------------------------------------------
+% CORE FRAMING: ceilings, saturation, and the modal-ceiling account
+% ---------------------------------------------------------------------------
+
+% [V-ARXIV] Authors and title confirmed against arXiv metadata and the ar5iv
+% render of the paper's own title block (both authors marked equal
+% contribution; affiliation UIUC).
+@article{bay2026modal,
+  title  = {When More Sampling Hurts: The Modal Ceiling and Correlation Ceiling of Test-Time Scaling},
+  author = {Bay, Yong Yi and Yearick, Kathleen A.},
+  journal = {arXiv preprint arXiv:2606.28661},
+  year   = {2026},
+  eprint = {2606.28661},
+  archivePrefix = {arXiv},
+  primaryClass = {cs.LG},
+  url    = {https://arxiv.org/abs/2606.28661},
+  note   = {Preprint; not peer reviewed at time of writing.}
+}
+
+% [V-ARXIV]
+@article{blendasc2025,
+  title  = {Optimal Self-Consistency for Efficient Reasoning with Large Language Models},
+  author = {Feng, Austin and Alonso, Marius and Odonnat, Ambroise and Feofanov, Vasilii and Redko, Ievgen},
+  journal = {arXiv preprint arXiv:2511.12309},
+  year   = {2025},
+  eprint = {2511.12309},
+  archivePrefix = {arXiv},
+  url    = {https://arxiv.org/abs/2511.12309},
+  note   = {Introduces Blend-ASC.}
+}
+
+% [V-ARXIV] Given names expanded from the arXiv record (the paper's own title
+% block prints initials only).
+@article{certifiedsc2025,
+  title  = {Certified Self-Consistency: Statistical Guarantees and Test-Time Training for Reliable Reasoning in {LLM}s},
+  author = {Cordero-Encinar, Paula and Duncan, Andrew B.},
+  journal = {arXiv preprint arXiv:2510.17472},
+  year   = {2025},
+  eprint = {2510.17472},
+  archivePrefix = {arXiv},
+  url    = {https://arxiv.org/abs/2510.17472},
+  note   = {Introduces the Martingale Majority Certificate.}
+}
+
+% [V-ARXIV]
+@article{samplecomplexity2025,
+  title  = {Sample Complexity and Representation Ability of Test-time Scaling Paradigms},
+  author = {Huang, Baihe and Li, Shanda and Wu, Tianhao and Yang, Yiming and Talwalkar, Ameet and Ramchandran, Kannan and Jordan, Michael I. and Jiao, Jiantao},
+  journal = {arXiv preprint arXiv:2506.05295},
+  year   = {2025},
+  eprint = {2506.05295},
+  archivePrefix = {arXiv},
+  url    = {https://arxiv.org/abs/2506.05295}
+}
+
+% [V-ARXIV]
+@article{bestofmajority2025,
+  title  = {Best-of-Majority: Minimax-Optimal Strategy for Pass@$k$ Inference Scaling},
+  author = {Di, Qiwei and Ji, Kaixuan and Li, Xuheng and Zhao, Heyang and Gu, Quanquan},
+  journal = {arXiv preprint arXiv:2510.03199},
+  year   = {2025},
+  eprint = {2510.03199},
+  archivePrefix = {arXiv},
+  url    = {https://arxiv.org/abs/2510.03199}
+}
+
+% [V-ARXIV] Sole author; industry affiliation (KAIKAKU). Preprint, not peer
+% reviewed -- cited only as corroborating context, never as sole support.
+@article{cofailure2026,
+  title  = {When Does Combining Language Models Help? A Co-Failure Ceiling on Routing, Voting, and Mixture-of-Agents Across 67 Frontier Models},
+  author = {Chen, Josef},
+  journal = {arXiv preprint arXiv:2606.27288},
+  year   = {2026},
+  eprint = {2606.27288},
+  archivePrefix = {arXiv},
+  url    = {https://arxiv.org/abs/2606.27288}
+}
+
+
+% ---------------------------------------------------------------------------
+% TEST-TIME COMPUTE SCALING
+% ---------------------------------------------------------------------------
+
+% [V-ARXIV] + [V-CANON] Author list confirmed from the paper's own title block.
+@inproceedings{snell2024scaling,
+  title     = {Scaling {LLM} Test-Time Compute Optimally can be More Effective than Scaling Model Parameters},
+  author    = {Snell, Charlie and Lee, Jaehoon and Xu, Kelvin and Kumar, Aviral},
+  booktitle = {International Conference on Learning Representations (ICLR)},
+  year      = {2025},
+  eprint    = {2408.03314},
+  archivePrefix = {arXiv},
+  url       = {https://arxiv.org/abs/2408.03314}
+}
+
+% [V-CANON]
+@article{brown2024monkeys,
+  title  = {Large Language Monkeys: Scaling Inference Compute with Repeated Sampling},
+  author = {Brown, Bradley and Juravsky, Jordan and Ehrlich, Ryan and Clark, Ronald and Le, Quoc V. and R{\'e}, Christopher and Mirhoseini, Azalia},
+  journal = {arXiv preprint arXiv:2407.21787},
+  year   = {2024},
+  eprint = {2407.21787},
+  archivePrefix = {arXiv},
+  url    = {https://arxiv.org/abs/2407.21787}
+}
+
+% [V-CANON]
+@article{wu2024inference,
+  title  = {Inference Scaling Laws: An Empirical Analysis of Compute-Optimal Inference for Problem-Solving with Language Models},
+  author = {Wu, Yangzhen and Sun, Zhiqing and Li, Shanda and Welleck, Sean and Yang, Yiming},
+  journal = {arXiv preprint arXiv:2408.00724},
+  year   = {2024},
+  eprint = {2408.00724},
+  archivePrefix = {arXiv},
+  url    = {https://arxiv.org/abs/2408.00724}
+}
+
+% [V-CANON]
+@article{muennighoff2025s1,
+  title  = {s1: Simple Test-Time Scaling},
+  author = {Muennighoff, Niklas and Yang, Zitong and Shi, Weijia and Li, Xiang Lisa and Fei-Fei, Li and Hajishirzi, Hannaneh and Zettlemoyer, Luke and Liang, Percy and Cand{\`e}s, Emmanuel and Hashimoto, Tatsunori},
+  journal = {arXiv preprint arXiv:2501.19393},
+  year   = {2025},
+  eprint = {2501.19393},
+  archivePrefix = {arXiv},
+  url    = {https://arxiv.org/abs/2501.19393}
+}
+
+% [V-PUB] Publisher BibTeX observed on testtimescaling.github.io.
+@article{zhang2025ttssurvey,
+  title  = {What, How, Where, and How Well? A Survey on Test-Time Scaling in Large Language Models},
+  author = {Zhang, Qiyuan and Lyu, Fuyuan and Sun, Zexu and Wang, Lei and Zhang, Weixu and Guo, Zhihan and Wang, Yufei and Muennighoff, Niklas and King, Irwin and Liu, Xue and Ma, Chen},
+  journal = {arXiv preprint arXiv:2503.24235},
+  year   = {2025},
+  eprint = {2503.24235},
+  archivePrefix = {arXiv},
+  url    = {https://arxiv.org/abs/2503.24235}
+}
+
+% [V-ARXIV]
+@article{subproblemsurvey2025,
+  title  = {Test-time Scaling of {LLM}s: A Survey from A Subproblem Structure Perspective},
+  author = {Yang, Zhuoyi and Guo, Xu and Zhang, Tong and Xu, Huijuan and Li, Boyang},
+  journal = {arXiv preprint arXiv:2511.14772},
+  year   = {2025},
+  eprint = {2511.14772},
+  archivePrefix = {arXiv},
+  url    = {https://arxiv.org/abs/2511.14772}
+}
+
+% [V-ARXIV]
+@article{artofscaling2025,
+  title  = {The Art of Scaling Test-Time Compute for Large Language Models},
+  author = {Agarwal, Aradhye and Sengupta, Ayan and Chakraborty, Tanmoy},
+  journal = {arXiv preprint arXiv:2512.02008},
+  year   = {2025},
+  eprint = {2512.02008},
+  archivePrefix = {arXiv},
+  url    = {https://arxiv.org/abs/2512.02008},
+  note   = {Large-scale matched comparison of test-time-scaling strategies across open models.}
+}
+
+% [V-PUB] + [V-ARXIV] ML Anthology/TMLR publisher BibTeX and the arXiv record
+% agree exactly on the 14-author list.
+@article{gema2025inverse,
+  title   = {Inverse Scaling in Test-Time Compute},
+  author  = {Gema, Aryo Pradipta and H{\"a}gele, Alexander and Chen, Runjin and Arditi, Andy and Goldman-Wetzler, Jacob and Fraser-Taliente, Kit and Sleight, Henry and Petrini, Linda and Michael, Julian and Alex, Beatrice and Minervini, Pasquale and Chen, Yanda and Benton, Joe and Perez, Ethan},
+  journal = {Transactions on Machine Learning Research (TMLR)},
+  year    = {2025},
+  eprint  = {2507.14417},
+  archivePrefix = {arXiv},
+  url     = {https://arxiv.org/abs/2507.14417}
+}
+
+% [V-CANON]
+@inproceedings{lightman2024verify,
+  title     = {Let's Verify Step by Step},
+  author    = {Lightman, Hunter and Kosaraju, Vineet and Burda, Yura and Edwards, Harri and Baker, Bowen and Lee, Teddy and Leike, Jan and Schulman, John and Sutskever, Ilya and Cobbe, Karl},
+  booktitle = {International Conference on Learning Representations (ICLR)},
+  year      = {2024},
+  eprint    = {2305.20050},
+  archivePrefix = {arXiv},
+  url       = {https://arxiv.org/abs/2305.20050}
+}
+
+% [V-CANON]
+@article{uesato2022process,
+  title  = {Solving Math Word Problems with Process- and Outcome-Based Feedback},
+  author = {Uesato, Jonathan and Kushman, Nate and Kumar, Ramana and Song, Francis and Siegel, Noah and Wang, Lisa and Creswell, Antonia and Irving, Geoffrey and Higgins, Irina},
+  journal = {arXiv preprint arXiv:2211.14275},
+  year   = {2022},
+  eprint = {2211.14275},
+  archivePrefix = {arXiv},
+  url    = {https://arxiv.org/abs/2211.14275}
+}
+
+% [V-ACL] Anthology BibTeX (2024.acl-long.510).
+@inproceedings{wang2024mathshepherd,
+  title     = {Math-Shepherd: Verify and Reinforce {LLM}s Step-by-step without Human Annotations},
+  author    = {Wang, Peiyi and Li, Lei and Shao, Zhihong and Xu, Runxin and Dai, Damai and Li, Yifei and Chen, Deli and Wu, Yu and Sui, Zhifang},
+  booktitle = {Proceedings of the 62nd Annual Meeting of the Association for Computational Linguistics (Volume 1: Long Papers)},
+  pages     = {9426--9439},
+  year      = {2024},
+  eprint    = {2312.08935},
+  archivePrefix = {arXiv},
+  url       = {https://aclanthology.org/2024.acl-long.510/}
+}
+
+% [V-ARXIV]
+@article{ttsknowledge2025,
+  title  = {Test-Time Scaling in Reasoning Models Is Not Effective for Knowledge-Intensive Tasks Yet},
+  author = {Zhao, James Xu and Hooi, Bryan and Ng, See-Kiong},
+  journal = {arXiv preprint arXiv:2509.06861},
+  year   = {2025},
+  eprint = {2509.06861},
+  archivePrefix = {arXiv},
+  url    = {https://arxiv.org/abs/2509.06861}
+}
+
+
+% ---------------------------------------------------------------------------
+% ADAPTIVE / EARLY-STOPPING SELF-CONSISTENCY
+% ---------------------------------------------------------------------------
+
+% [V-CANON]
+@inproceedings{aggarwal2023adaptive,
+  title     = {Let's Sample Step by Step: Adaptive-Consistency for Efficient Reasoning and Coding with {LLM}s},
+  author    = {Aggarwal, Pranjal and Madaan, Aman and Yang, Yiming and Mausam},
+  booktitle = {Conference on Empirical Methods in Natural Language Processing (EMNLP)},
+  year      = {2023},
+  eprint    = {2305.11860},
+  archivePrefix = {arXiv},
+  url       = {https://arxiv.org/abs/2305.11860}
+}
+
+% [V-PUB] Venue confirmed: ICLR 2024 poster (iclr.cc/virtual/2024/poster/17848)
+% and proceedings.iclr.cc. The earlier "ACL 2024" uncertainty is resolved.
+@inproceedings{li2024esc,
+  title     = {Escape Sky-high Cost: Early-stopping Self-Consistency for Multi-step Reasoning},
+  author    = {Li, Yiwei and Yuan, Peiwen and Feng, Shaoxiong and Pan, Boyuan and Wang, Xinglin and Sun, Bin and Wang, Heda and Li, Kan},
+  booktitle = {International Conference on Learning Representations (ICLR)},
+  year      = {2024},
+  eprint    = {2401.10480},
+  archivePrefix = {arXiv},
+  url       = {https://arxiv.org/abs/2401.10480}
+}
+
+% [V-PUB] GitHub README BibTeX observed; NeurIPS 2025 badge on the repo.
+@article{fu2024certaindex,
+  title  = {Efficiently Serving {LLM} Reasoning Programs with Certaindex},
+  author = {Fu, Yichao and Chen, Junda and Zhu, Siqi and Fu, Zheyu and Dai, Zhongdongming and Qiao, Aurick and Zhang, Hao},
+  journal = {arXiv preprint arXiv:2412.20993},
+  year   = {2024},
+  eprint = {2412.20993},
+  archivePrefix = {arXiv},
+  url    = {https://arxiv.org/abs/2412.20993},
+  note   = {Later retitled ``Efficiently Scaling LLM Reasoning with Certaindex''; NeurIPS 2025.}
+}
+
+% [V-ARXIV]
+@article{adaptivettc2026,
+  title  = {What If We Allocate Test-Time Compute Adaptively?},
+  author = {Bilal, Ahsan and Mohsin, Ahmed and Umer, Muhammad and Subhan, Ali and Rizwan, Hassan and Mohsin, Ayesha and Hougen, Dean},
+  journal = {arXiv preprint arXiv:2602.01070},
+  year   = {2026},
+  eprint = {2602.01070},
+  archivePrefix = {arXiv},
+  url    = {https://arxiv.org/abs/2602.01070}
+}
+
+
+% ---------------------------------------------------------------------------
+% AGGREGATION BEYOND PLURALITY VOTING
+% ---------------------------------------------------------------------------
+
+% [V-CANON]
+@inproceedings{wang2023selfconsistency,
+  title     = {Self-Consistency Improves Chain of Thought Reasoning in Language Models},
+  author    = {Wang, Xuezhi and Wei, Jason and Schuurmans, Dale and Le, Quoc V. and Chi, Ed H. and Narang, Sharan and Chowdhery, Aakanksha and Zhou, Denny},
+  booktitle = {International Conference on Learning Representations (ICLR)},
+  year      = {2023},
+  eprint    = {2203.11171},
+  archivePrefix = {arXiv},
+  url       = {https://arxiv.org/abs/2203.11171}
+}
+
+% [V-CANON]
+@article{chen2023universal,
+  title  = {Universal Self-Consistency for Large Language Model Generation},
+  author = {Chen, Xinyun and Aksitov, Renat and Alon, Uri and Ren, Jie and Xiao, Kefan and Yin, Pengcheng and Prakash, Sushant and Sutton, Charles and Wang, Xuezhi and Zhou, Denny},
+  journal = {arXiv preprint arXiv:2311.17311},
+  year   = {2023},
+  eprint = {2311.17311},
+  archivePrefix = {arXiv},
+  url    = {https://arxiv.org/abs/2311.17311}
+}
+
+% [V-ACL] Anthology BibTeX. Fourth author resolved: Nianwen Xue.
+@inproceedings{veccisc2026,
+  title     = {{VecCISC}: Improving Confidence-Informed Self-Consistency with Reasoning Trace Clustering and Candidate Answer Selection},
+  author    = {Petullo, James and George, Sonny and Cashman, Dylan and Xue, Nianwen},
+  booktitle = {Findings of the Association for Computational Linguistics: ACL 2026},
+  pages     = {26184--26200},
+  year      = {2026},
+  eprint    = {2605.08070},
+  archivePrefix = {arXiv},
+  url       = {https://aclanthology.org/2026.findings-acl.1305/}
+}
+
+% [V-ACL] Anthology BibTeX; author list also confirmed against arXiv.
+@inproceedings{risc2026,
+  title     = {Boosting Self-Consistency with Ranking},
+  author    = {Marina, Maria and Moskovskiy, Daniil and Pletenev, Sergey and Salnikov, Mikhail and Panchenko, Alexander and Moskvoretskii, Viktor},
+  booktitle = {Proceedings of the 64th Annual Meeting of the Association for Computational Linguistics (Volume 4: Student Research Workshop)},
+  pages     = {1017--1032},
+  year      = {2026},
+  eprint    = {2606.05054},
+  archivePrefix = {arXiv},
+  url       = {https://aclanthology.org/2026.acl-srw.89/}
+}
+
+% [V-ARXIV] CORRECTED. The title previously recorded here was a placeholder
+% reconstructed from the PDF body and was wrong; the canonical title is below.
+@article{rcs2026,
+  title  = {Beyond Majority Voting: Efficient Best-Of-N with Radial Consensus Score},
+  author = {Nguyen, Manh and Gupta, Sunil and Le, Hung},
+  journal = {arXiv preprint arXiv:2604.12196},
+  year   = {2026},
+  eprint = {2604.12196},
+  archivePrefix = {arXiv},
+  url    = {https://arxiv.org/abs/2604.12196}
+}
+
+% [V-ARXIV] CORRECTED TITLE. The v1 title was "Enhancing Language Model
+% Reasoning via Weighted Reasoning in Self-Consistency"; the current canonical
+% title is below.
+@article{weightedreasoning2024,
+  title  = {Semantic Self-Consistency: Enhancing Language Model Reasoning via Semantic Weighting},
+  author = {Knappe, Tim and Li, Ryan and Chauhan, Ayush and Chhua, Kaylee and Zhu, Kevin and O'Brien, Sean},
+  journal = {arXiv preprint arXiv:2410.07839},
+  year   = {2024},
+  eprint = {2410.07839},
+  archivePrefix = {arXiv},
+  url    = {https://arxiv.org/abs/2410.07839}
+}
+
+% [V-ARXIV]
+@article{prove2024,
+  title  = {Not All Votes Count! Programs as Verifiers Improve Self-Consistency of Language Models for Math Reasoning},
+  author = {Toh, Vernon Y. H. and Ghosal, Deepanway and Poria, Soujanya},
+  journal = {arXiv preprint arXiv:2410.12608},
+  year   = {2024},
+  eprint = {2410.12608},
+  archivePrefix = {arXiv},
+  url    = {https://arxiv.org/abs/2410.12608},
+  note   = {Introduces PROVE.}
+}
+
+% [V-ARXIV]
+@article{marginalsharpening2026,
+  title  = {Self-Consistency via Marginal Sharpening},
+  author = {Arzhantsev, Aleksei and Sakhi, Otmane and Chopin, Nicolas},
+  journal = {arXiv preprint arXiv:2605.28142},
+  year   = {2026},
+  eprint = {2605.28142},
+  archivePrefix = {arXiv},
+  url    = {https://arxiv.org/abs/2605.28142}
+}
+
+
+% ---------------------------------------------------------------------------
+% PROMPT SENSITIVITY, VARIANCE DECOMPOSITION, MULTI-PROMPT EVAL (2024–2026)
+% ---------------------------------------------------------------------------
+
+% [V-ARXIV] Verified export.arxiv.org/api/query?id_list=2603.13285
+@article{brittlebench2026,
+  title  = {{BrittleBench}: Quantifying {LLM} Robustness via Prompt Sensitivity},
+  author = {Romanou, Angelika and Ibrahim, Mark and Ross, Candace and Shaib, Chantal and Oktar, Kerem and Bell, Samuel J. and Ovalle, Anaelia and Dodge, Jesse and Bosselut, Antoine and Sinha, Koustuv and Williams, Adina},
+  journal = {arXiv preprint arXiv:2603.13285},
+  year   = {2026},
+  eprint = {2603.13285},
+  archivePrefix = {arXiv},
+  url    = {https://arxiv.org/abs/2603.13285},
+  note   = {Item $\times$ perturbation variance decomposition; deterministic log-prob scoring.}
+}
+
+% [V-ARXIV] Verified export.arxiv.org/api/query?id_list=2604.11581
+@article{tee2026,
+  title  = {Hidden Measurement Error in {LLM} Pipelines Distorts Annotation, Evaluation, and Benchmarking},
+  author = {Messing, Solomon},
+  journal = {arXiv preprint arXiv:2604.11581},
+  year   = {2026},
+  eprint = {2604.11581},
+  archivePrefix = {arXiv},
+  url    = {https://arxiv.org/abs/2604.11581},
+  note   = {Total Evaluation Error (TEE); crossed REML with item $\times$ prompt; D-study.}
+}
+
+% [V-ARXIV] Verified export.arxiv.org/api/query?id_list=2606.19636
+@article{hardunreached2026,
+  title  = {Hard or Just Unreached? Diagnosing the Sampling Blind Spot in Math-Reasoning Difficulty Estimation},
+  author = {Zhou, Luca and Shah, Sajel and Rodol\`a, Emanuele and Dess\`i, Roberto},
+  journal = {arXiv preprint arXiv:2606.19636},
+  year   = {2026},
+  eprint = {2606.19636},
+  archivePrefix = {arXiv},
+  url    = {https://arxiv.org/abs/2606.19636}
+}
+
+% [V-ARXIV] Verified export.arxiv.org/api/query?id_list=2607.13304
+@article{facetnoise2026,
+  title  = {Where Does the Noise Come From? A Variance-Components Decomposition of Non-Determinism in {LLM} Brand Answers},
+  author = {\.{Z}atuchin, Dmitrij},
+  journal = {arXiv preprint arXiv:2607.13304},
+  year   = {2026},
+  eprint = {2607.13304},
+  archivePrefix = {arXiv},
+  url    = {https://arxiv.org/abs/2607.13304},
+  note   = {G-theory facet decomposition; repeats vs.\ paraphrases allocation argument.}
+}
+
+% [V-ARXIV] Verified export.arxiv.org/api/query?id_list=2603.01865
+@article{cyclicjudge2026,
+  title  = {{CyclicJudge}: Mitigating Judge Bias Efficiently in {LLM}-based Evaluation},
+  author = {Zhu, Ziyi and Tieleman, Olivier and Bukhtiyarov, Alexey and Chen, Jinghong},
+  journal = {arXiv preprint arXiv:2603.01865},
+  year   = {2026},
+  eprint = {2603.01865},
+  archivePrefix = {arXiv},
+  url    = {https://arxiv.org/abs/2603.01865}
+}
+
+% [V-ARXIV] NeurIPS 2024 per arXiv comment. Verified id_list=2405.17202
+@inproceedings{prompteval2024,
+  title     = {Efficient Multi-Prompt Evaluation of {LLM}s},
+  author    = {Polo, Felipe Maia and Xu, Ronald and Weber, Lucas and Silva, M{\'i}rian and Bhardwaj, Onkar and Choshen, Leshem and de Oliveira, Allysson Flavio Melo and Sun, Yuekai and Yurochkin, Mikhail},
+  booktitle = {Advances in Neural Information Processing Systems (NeurIPS)},
+  year      = {2024},
+  eprint    = {2405.17202},
+  archivePrefix = {arXiv},
+  url       = {https://arxiv.org/abs/2405.17202},
+  note      = {PromptEval; joint (item, template) performance distribution.}
+}
+
+% [V-PUB] ACL Anthology 2024.tacl-1.52
+@article{mizrahi2024multiprompt,
+  title   = {State of What Art? A Call for Multi-Prompt {LLM} Evaluation},
+  author  = {Mizrahi, Moran and Kaplan, Guy and Malkin, Dan and Dror, Rotem and Shahaf, Dafna and Stanovsky, Gabriel},
+  journal = {Transactions of the Association for Computational Linguistics},
+  volume  = {12},
+  pages   = {933--949},
+  year    = {2024},
+  doi     = {10.1162/tacl_a_00681},
+  url     = {https://aclanthology.org/2024.tacl-1.52/}
+}
+
+% [V-ACL] Anthology 2024.acl-long.744
+@inproceedings{alzahrani2024leaderboard,
+  title     = {When Benchmarks are Targets: Revealing the Sensitivity of Large Language Model Leaderboards},
+  author    = {Alzahrani, Norah and Alyahya, Hisham and Alnumay, Yazeed and AlRashed, Sultan and Alsubaie, Shaykhah and Almushayqih, Yousef and Mirza, Faisal and Alotaibi, Nouf and Al-Twairesh, Nora and Alowisheq, Areeb and Bari, M Saiful and Khan, Haidar},
+  booktitle = {Proceedings of the 62nd Annual Meeting of the Association for Computational Linguistics (Volume 1: Long Papers)},
+  pages     = {13787--13805},
+  year      = {2024},
+  doi       = {10.18653/v1/2024.acl-long.744},
+  url       = {https://aclanthology.org/2024.acl-long.744/}
+}
+
+% ---------------------------------------------------------------------------
+% PROMPT SENSITIVITY AND CONDITIONING DIVERSITY  (nearest prior work)
+% ---------------------------------------------------------------------------
+
+% [V-ARXIV] Title corrected: there is no comma before "or:" in the canonical
+% title. Author list confirmed from the paper's own title block.
+@inproceedings{sclar2024formatspread,
+  title     = {Quantifying Language Models' Sensitivity to Spurious Features in Prompt Design or: How I learned to start worrying about prompt formatting},
+  author    = {Sclar, Melanie and Choi, Yejin and Tsvetkov, Yulia and Suhr, Alane},
+  booktitle = {International Conference on Learning Representations (ICLR)},
+  year      = {2024},
+  eprint    = {2310.11324},
+  archivePrefix = {arXiv},
+  url       = {https://arxiv.org/abs/2310.11324}
+}
+
+% [V-ACL] Anthology BibTeX.
+@inproceedings{paraconsistency2024,
+  title     = {Self-Para-Consistency: Improving Reasoning Tasks at Low Cost for Large Language Models},
+  author    = {Chen, Wenqing and Wang, Weicheng and Chu, Zhixuan and Ren, Kui and Zheng, Zibin and Lu, Zhichao},
+  booktitle = {Findings of the Association for Computational Linguistics: ACL 2024},
+  pages     = {14162--14167},
+  year      = {2024},
+  url       = {https://aclanthology.org/2024.findings-acl.842/}
+}
+
+% [V-ACL] Anthology BibTeX. CORRECTED: the first author is Yue Zhou, not
+% "Yuting Zhou" as previously guessed from a citing paper.
+@inproceedings{zhou2024paraphrase,
+  title     = {Paraphrase and Solve: Exploring and Exploiting the Impact of Surface Form on Mathematical Reasoning in Large Language Models},
+  author    = {Zhou, Yue and Zhu, Yada and Antognini, Diego and Kim, Yoon and Zhang, Yang},
+  booktitle = {Proceedings of the 2024 Conference of the North American Chapter of the Association for Computational Linguistics: Human Language Technologies (Volume 1: Long Papers)},
+  pages     = {2793--2804},
+  year      = {2024},
+  url       = {https://aclanthology.org/2024.naacl-long.153/},
+  note      = {Introduces Self-Consistency-over-Paraphrases (SCoP).}
+}
+
+% [V-ACL] Anthology BibTeX.
+@inproceedings{paraphraseanalysis2025,
+  title     = {An Analysis of the Impact of Problem Paraphrasing on {LLM}-Based Mathematical Problem Solving},
+  author    = {Han, Yerim and Seo, Hyein and Namgoong, Hyuk and Jung, Sangkeun},
+  booktitle = {Proceedings of the 14th International Joint Conference on Natural Language Processing and the 4th Conference of the Asia-Pacific Chapter of the Association for Computational Linguistics},
+  pages     = {383--395},
+  year      = {2025},
+  url       = {https://aclanthology.org/2025.ijcnlp-long.23/}
+}
+
+% [V-ARXIV]
+@article{verbalizedsampling2025,
+  title  = {Verbalized Sampling: How to Mitigate Mode Collapse and Unlock {LLM} Diversity},
+  author = {Zhang, Jiayi and Yu, Simon and Chong, Derek and Sicilia, Anthony and Tomz, Michael R. and Manning, Christopher D. and Shi, Weiyan},
+  journal = {arXiv preprint arXiv:2510.01171},
+  year   = {2025},
+  eprint = {2510.01171},
+  archivePrefix = {arXiv},
+  url    = {https://arxiv.org/abs/2510.01171}
+}
+
+
+% ---------------------------------------------------------------------------
+% RL FOR REASONING, LONG COT, SHARPENING, DIVERSITY COLLAPSE
+% ---------------------------------------------------------------------------
+
+% [V-CANON]
+@article{deepseekr1_2025,
+  title  = {DeepSeek-R1: Incentivizing Reasoning Capability in {LLM}s via Reinforcement Learning},
+  author = {{DeepSeek-AI}},
+  journal = {arXiv preprint arXiv:2501.12948},
+  year   = {2025},
+  eprint = {2501.12948},
+  archivePrefix = {arXiv},
+  url    = {https://arxiv.org/abs/2501.12948},
+  note   = {A version was subsequently published in Nature (2025). The Nature
+            volume and page numbers were NOT verified in this session; confirm
+            them if citing the journal version rather than the preprint.}
+}
+
+% [V-CANON]
+@article{shao2024deepseekmath,
+  title  = {DeepSeekMath: Pushing the Limits of Mathematical Reasoning in Open Language Models},
+  author = {Shao, Zhihong and Wang, Peiyi and Zhu, Qihao and Xu, Runxin and Song, Junxiao and Bi, Xiao and Zhang, Haowei and Zhang, Mingchuan and Li, Y. K. and Wu, Y. and Guo, Daya},
+  journal = {arXiv preprint arXiv:2402.03300},
+  year   = {2024},
+  eprint = {2402.03300},
+  archivePrefix = {arXiv},
+  url    = {https://arxiv.org/abs/2402.03300},
+  note   = {Introduces GRPO.}
+}
+
+% [V-ARXIV] Venue upgraded: the arXiv journal-ref records NeurIPS 2025 (Oral).
+% The repeated name "Yang Yue" is genuine -- two distinct authors share the
+% same romanised name in the canonical author list.
+@inproceedings{yue2025rlvr,
+  title     = {Does Reinforcement Learning Really Incentivize Reasoning Capacity in {LLM}s Beyond the Base Model?},
+  author    = {Yue, Yang and Chen, Zhiqi and Lu, Rui and Zhao, Andrew and Wang, Zhaokai and Yue, Yang and Song, Shiji and Huang, Gao},
+  booktitle = {Advances in Neural Information Processing Systems (NeurIPS)},
+  year      = {2025},
+  eprint    = {2504.13837},
+  archivePrefix = {arXiv},
+  url       = {https://arxiv.org/abs/2504.13837}
+}
+
+% [V-ARXIV] Venue upgraded: the arXiv journal-ref records COLM 2025.
+@inproceedings{diversitycollapse2025,
+  title     = {Weight Ensembling Improves Reasoning in Language Models},
+  author    = {Dang, Xingyu and Baek, Christina and Wen, Kaiyue and Kolter, Zico and Raghunathan, Aditi},
+  booktitle = {Conference on Language Modeling (COLM)},
+  year      = {2025},
+  eprint    = {2504.10478},
+  archivePrefix = {arXiv},
+  url       = {https://arxiv.org/abs/2504.10478},
+  note      = {Derives a pass@$k$ bias--variance trade-off and documents diversity collapse under SFT/RL.}
+}
+
+% [V-ARXIV] ICLR 2025 (OpenReview WJaUkwci9o).
+@inproceedings{huang2025sharpening,
+  title     = {Self-Improvement in Language Models: The Sharpening Mechanism},
+  author    = {Huang, Audrey and Block, Adam and Foster, Dylan J. and Rohatgi, Dhruv and Zhang, Cyril and Simchowitz, Max and Ash, Jordan T. and Krishnamurthy, Akshay},
+  booktitle = {International Conference on Learning Representations (ICLR)},
+  year      = {2025},
+  eprint    = {2412.01951},
+  archivePrefix = {arXiv},
+  url       = {https://arxiv.org/abs/2412.01951}
+}
+
+% [V-CANON]
+@article{ye2025limo,
+  title  = {LIMO: Less is More for Reasoning},
+  author = {Ye, Yixin and Huang, Zhen and Xiao, Yang and Chern, Ethan and Xia, Shijie and Liu, Pengfei},
+  journal = {arXiv preprint arXiv:2502.03387},
+  year   = {2025},
+  eprint = {2502.03387},
+  archivePrefix = {arXiv},
+  url    = {https://arxiv.org/abs/2502.03387}
+}
+
+
+% ---------------------------------------------------------------------------
+% CHAIN OF THOUGHT AND STRUCTURAL VARIANTS
+% ---------------------------------------------------------------------------
+
+% [V-CANON]
+@inproceedings{wei2022cot,
+  title     = {Chain-of-Thought Prompting Elicits Reasoning in Large Language Models},
+  author    = {Wei, Jason and Wang, Xuezhi and Schuurmans, Dale and Bosma, Maarten and Ichter, Brian and Xia, Fei and Chi, Ed H. and Le, Quoc V. and Zhou, Denny},
+  booktitle = {Advances in Neural Information Processing Systems (NeurIPS)},
+  year      = {2022},
+  eprint    = {2201.11903},
+  archivePrefix = {arXiv},
+  url       = {https://arxiv.org/abs/2201.11903}
+}
+
+% [V-CANON]
+@inproceedings{kojima2022zeroshot,
+  title     = {Large Language Models are Zero-Shot Reasoners},
+  author    = {Kojima, Takeshi and Gu, Shixiang Shane and Reid, Machel and Matsuo, Yutaka and Iwasawa, Yusuke},
+  booktitle = {Advances in Neural Information Processing Systems (NeurIPS)},
+  year      = {2022},
+  eprint    = {2205.11916},
+  archivePrefix = {arXiv},
+  url       = {https://arxiv.org/abs/2205.11916}
+}
+
+% [V-CANON]
+@inproceedings{zhou2023leasttomost,
+  title     = {Least-to-Most Prompting Enables Complex Reasoning in Large Language Models},
+  author    = {Zhou, Denny and Sch{\"a}rli, Nathanael and Hou, Le and Wei, Jason and Scales, Nathan and Wang, Xuezhi and Schuurmans, Dale and Cui, Claire and Bousquet, Olivier and Le, Quoc V. and Chi, Ed H.},
+  booktitle = {International Conference on Learning Representations (ICLR)},
+  year      = {2023},
+  eprint    = {2205.10625},
+  archivePrefix = {arXiv},
+  url       = {https://arxiv.org/abs/2205.10625}
+}
+
+% [V-CANON]
+@inproceedings{yao2023tot,
+  title     = {Tree of Thoughts: Deliberate Problem Solving with Large Language Models},
+  author    = {Yao, Shunyu and Yu, Dian and Zhao, Jeffrey and Shafran, Izhak and Griffiths, Thomas L. and Cao, Yuan and Narasimhan, Karthik},
+  booktitle = {Advances in Neural Information Processing Systems (NeurIPS)},
+  year      = {2023},
+  eprint    = {2305.10601},
+  archivePrefix = {arXiv},
+  url       = {https://arxiv.org/abs/2305.10601}
+}
+
+% [V-CANON]
+@inproceedings{besta2024got,
+  title     = {Graph of Thoughts: Solving Elaborate Problems with Large Language Models},
+  author    = {Besta, Maciej and Blach, Nils and Kubicek, Ales and Gerstenberger, Robert and Podstawski, Michal and Gianinazzi, Lukas and Gajda, Joanna and Lehmann, Tomasz and Niewiadomski, Hubert and Nyczyk, Piotr and Hoefler, Torsten},
+  booktitle = {AAAI Conference on Artificial Intelligence},
+  year      = {2024},
+  eprint    = {2308.09687},
+  archivePrefix = {arXiv},
+  url       = {https://arxiv.org/abs/2308.09687}
+}
+
+% [V-CANON]
+@article{chen2023pot,
+  title  = {Program of Thoughts Prompting: Disentangling Computation from Reasoning for Numerical Reasoning Tasks},
+  author = {Chen, Wenhu and Ma, Xueguang and Wang, Xinyi and Cohen, William W.},
+  journal = {Transactions on Machine Learning Research (TMLR)},
+  year   = {2023},
+  eprint = {2211.12588},
+  archivePrefix = {arXiv},
+  url    = {https://arxiv.org/abs/2211.12588}
+}
+
+% [V-CANON]
+@inproceedings{gao2023pal,
+  title     = {{PAL}: Program-aided Language Models},
+  author    = {Gao, Luyu and Madaan, Aman and Zhou, Shuyan and Alon, Uri and Liu, Pengfei and Yang, Yiming and Callan, Jamie and Neubig, Graham},
+  booktitle = {International Conference on Machine Learning (ICML)},
+  year      = {2023},
+  eprint    = {2211.10435},
+  archivePrefix = {arXiv},
+  url       = {https://arxiv.org/abs/2211.10435}
+}
+
+% [V-CANON]
+@inproceedings{sprague2025tocot,
+  title     = {To CoT or not to CoT? Chain-of-thought helps mainly on math and symbolic reasoning},
+  author    = {Sprague, Zayne and Yin, Fangcong and Rodriguez, Juan Diego and Jiang, Dongwei and Wadhwa, Manya and Singhal, Prasann and Zhao, Xinyu and Ye, Xi and Mahowald, Kyle and Durrett, Greg},
+  booktitle = {International Conference on Learning Representations (ICLR)},
+  year      = {2025},
+  eprint    = {2409.12183},
+  archivePrefix = {arXiv},
+  url       = {https://arxiv.org/abs/2409.12183}
+}
+
+
+% ---------------------------------------------------------------------------
+% FAITHFULNESS, PREMATURE COMMITMENT, LATENT REASONING
+% ---------------------------------------------------------------------------
+
+% [V-CANON]
+@inproceedings{turpin2023unfaithful,
+  title     = {Language Models Don't Always Say What They Think: Unfaithful Explanations in Chain-of-Thought Prompting},
+  author    = {Turpin, Miles and Michael, Julian and Perez, Ethan and Bowman, Samuel R.},
+  booktitle = {Advances in Neural Information Processing Systems (NeurIPS)},
+  year      = {2023},
+  eprint    = {2305.04388},
+  archivePrefix = {arXiv},
+  url       = {https://arxiv.org/abs/2305.04388}
+}
+
+% [V-CANON] 30-author paper; truncated with "and others" per convention.
+@article{lanham2023measuring,
+  title  = {Measuring Faithfulness in Chain-of-Thought Reasoning},
+  author = {Lanham, Tamera and Chen, Anna and Radhakrishnan, Ansh and Steiner, Benoit and Denison, Carson and Hernandez, Danny and Li, Dustin and Durmus, Esin and Hubinger, Evan and Kernion, Jackson and others},
+  journal = {arXiv preprint arXiv:2307.13702},
+  year   = {2023},
+  eprint = {2307.13702},
+  archivePrefix = {arXiv},
+  url    = {https://arxiv.org/abs/2307.13702}
+}
+
+% [V-CANON]
+@article{lyu2023faithful,
+  title  = {Faithful Chain-of-Thought Reasoning},
+  author = {Lyu, Qing and Havaldar, Shreya and Stein, Adam and Zhang, Li and Rao, Delip and Wong, Eric and Apidianaki, Marianna and Callison-Burch, Chris},
+  journal = {arXiv preprint arXiv:2301.13379},
+  year   = {2023},
+  eprint = {2301.13379},
+  archivePrefix = {arXiv},
+  url    = {https://arxiv.org/abs/2301.13379}
+}
+
+% [V-ARXIV] Fourth author is "Chen Wu" per the arXiv record; Semantic Scholar
+% renders this as "Chenglin Wu". The arXiv record is used.
+@article{prematureconfidence2026,
+  title  = {Understanding and Mitigating Premature Confidence for Better {LLM} Reasoning},
+  author = {Gai, Jingchu and Zeng, Guanning and Baek, Christina and Wu, Chen and Kolter, J. Zico and Risteski, Andrej and Raghunathan, Aditi},
+  journal = {arXiv preprint arXiv:2605.24396},
+  year   = {2026},
+  eprint = {2605.24396},
+  archivePrefix = {arXiv},
+  url    = {https://arxiv.org/abs/2605.24396}
+}
+
+% [V-ARXIV] CORRECTED TITLE. The title previously recorded here was taken from
+% an earlier version; the canonical (v2) title is below.
+@article{precotprobe2026,
+  title  = {Post-Hoc Reasoning in Chain of Thought: Decoding and Steering Pre-Committed Answers},
+  author = {Cox, Kyle and Kianersi, Darius and Garriga-Alonso, Adri{\`a}},
+  journal = {arXiv preprint arXiv:2603.01437},
+  year   = {2026},
+  eprint = {2603.01437},
+  archivePrefix = {arXiv},
+  url    = {https://arxiv.org/abs/2603.01437}
+}
+
+% [V-ARXIV] The arXiv v2 record lists five authors; Semantic Scholar's record
+% of the TMLR version omits Tian Qiu. The arXiv list is used.
+@article{matcha2025,
+  title  = {Robust Answers, Fragile Logic: Probing the Decoupling Hypothesis in {LLM} Reasoning},
+  author = {Jiang, Enyi and Xu, Changming and Singh, Nischay and Qiu, Tian and Singh, Gagandeep},
+  journal = {Transactions on Machine Learning Research (TMLR)},
+  year   = {2025},
+  eprint = {2505.17406},
+  archivePrefix = {arXiv},
+  url    = {https://arxiv.org/abs/2505.17406},
+  note   = {Introduces MATCHA. Code at github.com/uiuc-focal-lab/MATCHA.}
+}
+
+% [V-CANON]
+@article{hao2024coconut,
+  title  = {Training Large Language Models to Reason in a Continuous Latent Space},
+  author = {Hao, Shibo and Sukhbaatar, Sainbayar and Su, DiJia and Li, Xian and Hu, Zhiting and Weston, Jason and Tian, Yuandong},
+  journal = {arXiv preprint arXiv:2412.06769},
+  year   = {2024},
+  eprint = {2412.06769},
+  archivePrefix = {arXiv},
+  url    = {https://arxiv.org/abs/2412.06769}
+}
+
+% [V-CANON]
+@inproceedings{pfau2024filler,
+  title     = {Let's Think Dot by Dot: Hidden Computation in Transformer Language Models},
+  author    = {Pfau, Jacob and Merrill, William and Bowman, Samuel R.},
+  booktitle = {Conference on Language Modeling (COLM)},
+  year      = {2024},
+  eprint    = {2404.15758},
+  archivePrefix = {arXiv},
+  url       = {https://arxiv.org/abs/2404.15758}
+}
+
+% [V-CANON]
+@inproceedings{goyal2024pause,
+  title     = {Think before you speak: Training Language Models With Pause Tokens},
+  author    = {Goyal, Sachin and Ji, Ziwei and Rawat, Ankit Singh and Menon, Aditya Krishna and Kumar, Sanjiv and Nagarajan, Vaishnavh},
+  booktitle = {International Conference on Learning Representations (ICLR)},
+  year      = {2024},
+  eprint    = {2310.02226},
+  archivePrefix = {arXiv},
+  url       = {https://arxiv.org/abs/2310.02226}
+}
+
+
+% ---------------------------------------------------------------------------
+% EFFICIENCY / OVERTHINKING
+% ---------------------------------------------------------------------------
+
+% [V-CANON]
+@article{overthinking2024,
+  title  = {Do NOT Think That Much for 2+3=? On the Overthinking of o1-Like {LLM}s},
+  author = {Chen, Xingyu and Xu, Jiahao and Liang, Tian and He, Zhiwei and Pang, Jianhui and Yu, Dian and Song, Linfeng and Liu, Qiuzhi and Zhou, Mengfei and Zhang, Zhuosheng and Wang, Rui and Tu, Zhaopeng and Mi, Haitao and Yu, Dong},
+  journal = {arXiv preprint arXiv:2412.21187},
+  year   = {2024},
+  eprint = {2412.21187},
+  archivePrefix = {arXiv},
+  url    = {https://arxiv.org/abs/2412.21187}
+}
+
+% [V-CANON]
+@article{underthinking2025,
+  title  = {Thoughts Are All Over the Place: On the Underthinking of o1-Like {LLM}s},
+  author = {Wang, Yue and Liu, Qiuzhi and Xu, Jiahao and Liang, Tian and Chen, Xingyu and He, Zhiwei and Song, Linfeng and Yu, Dian and Li, Juntao and Zhang, Zhuosheng and Wang, Rui and Tu, Zhaopeng and Mi, Haitao and Yu, Dong},
+  journal = {arXiv preprint arXiv:2501.18585},
+  year   = {2025},
+  eprint = {2501.18585},
+  archivePrefix = {arXiv},
+  url    = {https://arxiv.org/abs/2501.18585}
+}
+
+% [V-CANON]
+@article{stopoverthinking2025,
+  title  = {Stop Overthinking: A Survey on Efficient Reasoning for Large Language Models},
+  author = {Sui, Yang and Chuang, Yu-Neng and Wang, Guanchu and Zhang, Jiamu and Zhang, Tianyi and Yuan, Jiayi and Liu, Hongyi and Wen, Andrew and Zhong, Shaochen and Chen, Hanjie and Hu, Xia},
+  journal = {arXiv preprint arXiv:2503.16419},
+  year   = {2025},
+  eprint = {2503.16419},
+  archivePrefix = {arXiv},
+  url    = {https://arxiv.org/abs/2503.16419}
+}
+
+% [V-CANON]
+@article{l1_2025,
+  title  = {L1: Controlling How Long A Reasoning Model Thinks With Reinforcement Learning},
+  author = {Aggarwal, Pranjal and Welleck, Sean},
+  journal = {arXiv preprint arXiv:2503.04697},
+  year   = {2025},
+  eprint = {2503.04697},
+  archivePrefix = {arXiv},
+  url    = {https://arxiv.org/abs/2503.04697}
+}
+
+
+% ---------------------------------------------------------------------------
+% ROBUSTNESS, PERTURBATION, MEMORISATION
+% ---------------------------------------------------------------------------
+
+% [V-CANON]
+@inproceedings{mirzadeh2025gsmsymbolic,
+  title     = {{GSM}-Symbolic: Understanding the Limitations of Mathematical Reasoning in Large Language Models},
+  author    = {Mirzadeh, Iman and Alizadeh, Keivan and Shahrokhi, Hooman and Tuzel, Oncel and Bengio, Samy and Farajtabar, Mehrdad},
+  booktitle = {International Conference on Learning Representations (ICLR)},
+  year      = {2025},
+  eprint    = {2410.05229},
+  archivePrefix = {arXiv},
+  url       = {https://arxiv.org/abs/2410.05229}
+}
+
+% [V-CANON]
+@article{zhang2024gsm1k,
+  title  = {A Careful Examination of Large Language Model Performance on Grade School Arithmetic},
+  author = {Zhang, Hugh and Da, Jeff and Lee, Dean and Robinson, Vaughn and Wu, Catherine and Song, Will and Zhao, Tiffany and Raja, Pranav and Slack, Dylan and Lyu, Qin and Hendryx, Sean and Kaplan, Russell and Lunati, Michele and Yue, Summer},
+  journal = {arXiv preprint arXiv:2405.00332},
+  year   = {2024},
+  eprint = {2405.00332},
+  archivePrefix = {arXiv},
+  url    = {https://arxiv.org/abs/2405.00332}
+}
+
+% [V-CANON]
+@inproceedings{wu2024reciting,
+  title     = {Reasoning or Reciting? Exploring the Capabilities and Limitations of Language Models Through Counterfactual Tasks},
+  author    = {Wu, Zhaofeng and Qiu, Linlu and Ross, Alexis and Ak{\"y}urek, Ekin and Chen, Boyuan and Wang, Bailin and Kim, Najoung and Andreas, Jacob and Kim, Yoon},
+  booktitle = {Proceedings of NAACL},
+  year      = {2024},
+  eprint    = {2307.02477},
+  archivePrefix = {arXiv},
+  url       = {https://arxiv.org/abs/2307.02477}
+}
+
+% [V-CANON]
+@article{chen2024premise,
+  title  = {Premise Order Matters in Reasoning with Large Language Models},
+  author = {Chen, Xinyun and Chi, Ryan A. and Wang, Xuezhi and Zhou, Denny},
+  journal = {arXiv preprint arXiv:2402.08939},
+  year   = {2024},
+  eprint = {2402.08939},
+  archivePrefix = {arXiv},
+  url    = {https://arxiv.org/abs/2402.08939}
+}
+
+% [V-CANON]
+@inproceedings{berglund2024reversal,
+  title     = {The Reversal Curse: {LLM}s trained on ``A is B'' fail to learn ``B is A''},
+  author    = {Berglund, Lukas and Tong, Meg and Kaufmann, Max and Balesni, Mikita and Stickland, Asa Cooper and Korbak, Tomasz and Evans, Owain},
+  booktitle = {International Conference on Learning Representations (ICLR)},
+  year      = {2024},
+  eprint    = {2309.12288},
+  archivePrefix = {arXiv},
+  url       = {https://arxiv.org/abs/2309.12288}
+}
+
+% [V-CANON]
+@inproceedings{dziri2023faithfate,
+  title     = {Faith and Fate: Limits of Transformers on Compositionality},
+  author    = {Dziri, Nouha and Lu, Ximing and Sclar, Melanie and Li, Xiang Lorraine and Jiang, Liwei and Lin, Bill Yuchen and West, Peter and Bhagavatula, Chandra and Le Bras, Ronan and Hwang, Jena D. and others},
+  booktitle = {Advances in Neural Information Processing Systems (NeurIPS)},
+  year      = {2023},
+  eprint    = {2305.18654},
+  archivePrefix = {arXiv},
+  url       = {https://arxiv.org/abs/2305.18654}
+}
+
+% [V-ARXIV] Sole-author preprint, not peer reviewed. Cited only as
+% corroborating context.
+@article{reasoningcodeboth2026,
+  title  = {Reasoning, Code, or Both? How Large Language Models Handle Variations in Math Questions},
+  author = {Kutakh, Matthew},
+  journal = {arXiv preprint arXiv:2605.26414},
+  year   = {2026},
+  eprint = {2605.26414},
+  archivePrefix = {arXiv},
+  url    = {https://arxiv.org/abs/2605.26414}
+}
+
+
+% ---------------------------------------------------------------------------
+% SELF-CORRECTION
+% ---------------------------------------------------------------------------
+
+% [V-CANON]
+@inproceedings{huang2024cannotselfcorrect,
+  title     = {Large Language Models Cannot Self-Correct Reasoning Yet},
+  author    = {Huang, Jie and Chen, Xinyun and Mishra, Swaroop and Zheng, Huaixiu Steven and Yu, Adams Wei and Song, Xinying and Zhou, Denny},
+  booktitle = {International Conference on Learning Representations (ICLR)},
+  year      = {2024},
+  eprint    = {2310.01798},
+  archivePrefix = {arXiv},
+  url       = {https://arxiv.org/abs/2310.01798}
+}
+
+% [V-CANON]
+@article{kamoi2024whencan,
+  title  = {When Can {LLM}s Actually Correct Their Own Mistakes? A Critical Survey of Self-Correction of {LLM}s},
+  author = {Kamoi, Ryo and Zhang, Yusen and Zhang, Nan and Han, Jiawei and Zhang, Rui},
+  journal = {Transactions of the Association for Computational Linguistics (TACL)},
+  year   = {2024},
+  eprint = {2406.01297},
+  archivePrefix = {arXiv},
+  url    = {https://arxiv.org/abs/2406.01297}
+}
+
+% [V-CANON]
+@inproceedings{madaan2023selfrefine,
+  title     = {Self-Refine: Iterative Refinement with Self-Feedback},
+  author    = {Madaan, Aman and Tandon, Niket and Gupta, Prakhar and Hallinan, Skyler and Gao, Luyu and Wiegreffe, Sarah and Alon, Uri and Dziri, Nouha and Prabhumoye, Shrimai and Yang, Yiming and others},
+  booktitle = {Advances in Neural Information Processing Systems (NeurIPS)},
+  year      = {2023},
+  eprint    = {2303.17651},
+  archivePrefix = {arXiv},
+  url       = {https://arxiv.org/abs/2303.17651}
+}
+
+% [V-CANON]
+@inproceedings{du2024debate,
+  title     = {Improving Factuality and Reasoning in Language Models through Multiagent Debate},
+  author    = {Du, Yilun and Li, Shuang and Torralba, Antonio and Tenenbaum, Joshua B. and Mordatch, Igor},
+  booktitle = {International Conference on Machine Learning (ICML)},
+  year      = {2024},
+  eprint    = {2305.14325},
+  archivePrefix = {arXiv},
+  url       = {https://arxiv.org/abs/2305.14325}
+}
+
+
+% ---------------------------------------------------------------------------
+% UNCERTAINTY AND CALIBRATION
+% ---------------------------------------------------------------------------
+
+% [V-CANON]
+@article{kadavath2022know,
+  title  = {Language Models (Mostly) Know What They Know},
+  author = {Kadavath, Saurav and Conerly, Tom and Askell, Amanda and Henighan, Tom and Drain, Dawn and Perez, Ethan and Schiefer, Nicholas and Hatfield-Dodds, Zac and DasSarma, Nova and Tran-Johnson, Eli and others},
+  journal = {arXiv preprint arXiv:2207.05221},
+  year   = {2022},
+  eprint = {2207.05221},
+  archivePrefix = {arXiv},
+  url    = {https://arxiv.org/abs/2207.05221}
+}
+
+% [V-CANON]
+@inproceedings{kuhn2023semantic,
+  title     = {Semantic Uncertainty: Linguistic Invariances for Uncertainty Estimation in Natural Language Generation},
+  author    = {Kuhn, Lorenz and Gal, Yarin and Farquhar, Sebastian},
+  booktitle = {International Conference on Learning Representations (ICLR)},
+  year      = {2023},
+  eprint    = {2302.09664},
+  archivePrefix = {arXiv},
+  url       = {https://arxiv.org/abs/2302.09664}
+}
+
+% [V-PUB] Volume 630, pages 625--630 confirmed against the Nature record
+% (DOI 10.1038/s41586-024-07421-0).
+@article{farquhar2024semantic,
+  title   = {Detecting hallucinations in large language models using semantic entropy},
+  author  = {Farquhar, Sebastian and Kossen, Jannik and Kuhn, Lorenz and Gal, Yarin},
+  journal = {Nature},
+  volume  = {630},
+  pages   = {625--630},
+  year    = {2024},
+  doi     = {10.1038/s41586-024-07421-0}
+}
+
+% [V-CANON]
+@article{lin2022teaching,
+  title  = {Teaching Models to Express Their Uncertainty in Words},
+  author = {Lin, Stephanie and Hilton, Jacob and Evans, Owain},
+  journal = {Transactions on Machine Learning Research (TMLR)},
+  year   = {2022},
+  eprint = {2205.14334},
+  archivePrefix = {arXiv},
+  url    = {https://arxiv.org/abs/2205.14334}
+}
+
+% [V-CANON]
+@inproceedings{tian2023just,
+  title     = {Just Ask for Calibration: Strategies for Eliciting Calibrated Confidence Scores from Language Models Fine-Tuned with Human Feedback},
+  author    = {Tian, Katherine and Mitchell, Eric and Zhou, Allan and Sharma, Archit and Rafailov, Rafael and Yao, Huaxiu and Finn, Chelsea and Manning, Christopher D.},
+  booktitle = {Conference on Empirical Methods in Natural Language Processing (EMNLP)},
+  year      = {2023},
+  eprint    = {2305.14975},
+  archivePrefix = {arXiv},
+  url       = {https://arxiv.org/abs/2305.14975}
+}
+
+
+% ---------------------------------------------------------------------------
+% EVALUATION METHODOLOGY AND PSYCHOMETRICS
+% ---------------------------------------------------------------------------
+
+% [V-CANON]
+@article{chen2021codex,
+  title  = {Evaluating Large Language Models Trained on Code},
+  author = {Chen, Mark and Tworek, Jerry and Jun, Heewoo and Yuan, Qiming and Pinto, Henrique Ponde de Oliveira and Kaplan, Jared and Edwards, Harri and Burda, Yuri and Joseph, Nicholas and Brockman, Greg and others},
+  journal = {arXiv preprint arXiv:2107.03374},
+  year   = {2021},
+  eprint = {2107.03374},
+  archivePrefix = {arXiv},
+  url    = {https://arxiv.org/abs/2107.03374},
+  note   = {Source of the unbiased pass@$k$ estimator.}
+}
+
+% [V-CANON]
+@article{cobbe2021gsm8k,
+  title  = {Training Verifiers to Solve Math Word Problems},
+  author = {Cobbe, Karl and Kosaraju, Vineet and Bavarian, Mohammad and Chen, Mark and Jun, Heewoo and Kaiser, Lukasz and Plappert, Matthias and Tworek, Jerry and Hilton, Jacob and Nakano, Reiichiro and Hesse, Christopher and Schulman, John},
+  journal = {arXiv preprint arXiv:2110.14168},
+  year   = {2021},
+  eprint = {2110.14168},
+  archivePrefix = {arXiv},
+  url    = {https://arxiv.org/abs/2110.14168}
+}
+
+% [V-CANON]
+@inproceedings{hendrycks2021math,
+  title     = {Measuring Mathematical Problem Solving With the MATH Dataset},
+  author    = {Hendrycks, Dan and Burns, Collin and Kadavath, Saurav and Arora, Akul and Basart, Steven and Tang, Eric and Song, Dawn and Steinhardt, Jacob},
+  booktitle = {NeurIPS Datasets and Benchmarks Track},
+  year      = {2021},
+  eprint    = {2103.03874},
+  archivePrefix = {arXiv},
+  url       = {https://arxiv.org/abs/2103.03874}
+}
+
+% [V-CANON]
+@article{miller2024errorbars,
+  title  = {Adding Error Bars to Evals: A Statistical Approach to Language Model Evaluations},
+  author = {Miller, Evan},
+  journal = {arXiv preprint arXiv:2411.00640},
+  year   = {2024},
+  eprint = {2411.00640},
+  archivePrefix = {arXiv},
+  url    = {https://arxiv.org/abs/2411.00640}
+}
+
+% [V-CANON]
+@article{hochlehnert2025sober,
+  title  = {A Sober Look at Progress in Language Model Reasoning: Pitfalls and Paths to Reproducibility},
+  author = {Hochlehnert, Andreas and Bhatnagar, Hardik and Udandarao, Vishaal and Albanie, Samuel and Prabhu, Ameya and Bethge, Matthias},
+  journal = {arXiv preprint arXiv:2504.07086},
+  year   = {2025},
+  eprint = {2504.07086},
+  archivePrefix = {arXiv},
+  url    = {https://arxiv.org/abs/2504.07086}
+}
+
+% [V-ARXIV] Venue upgraded: the arXiv journal-ref records ICLR 2026.
+@inproceedings{dontpassk2025,
+  title     = {Don't Pass@$k$: A Bayesian Framework for Large Language Model Evaluation},
+  author    = {Hariri, Mohsen and Samandar, Amirhossein and Hinczewski, Michael and Chaudhary, Vipin},
+  booktitle = {International Conference on Learning Representations (ICLR)},
+  year      = {2026},
+  eprint    = {2510.04265},
+  archivePrefix = {arXiv},
+  url       = {https://arxiv.org/abs/2510.04265}
+}
+
+% [V-ARXIV]
+@article{coverattau2025,
+  title  = {Beyond Pass@$k$: Breadth-Depth Metrics for Reasoning Boundaries},
+  author = {Dragoi, Marius and Pintilie, Ioana and Gogianu, Florin and Brad, Florin},
+  journal = {arXiv preprint arXiv:2510.08325},
+  year   = {2025},
+  eprint = {2510.08325},
+  archivePrefix = {arXiv},
+  url    = {https://arxiv.org/abs/2510.08325},
+  note   = {Introduces Cover@$\tau$.}
+}
+
+% [V-ACL] Anthology BibTeX (2025.emnlp-main.632); also confirmed against the
+% paper's own title block.
+@inproceedings{falsepositives2025,
+  title     = {Examining False Positives under Inference Scaling for Mathematical Reasoning},
+  author    = {Wang, Yu and Yang, Nan and Wang, Liang and Wei, Furu and Feng, Fuli},
+  booktitle = {Proceedings of the 2025 Conference on Empirical Methods in Natural Language Processing},
+  pages     = {12501--12520},
+  year      = {2025},
+  eprint    = {2502.06217},
+  archivePrefix = {arXiv},
+  url       = {https://aclanthology.org/2025.emnlp-main.632/}
+}
+
+% [V-PUB] Author list resolved via Semantic Scholar's record of the ICML 2025
+% proceedings entry (PMLR v267, key kim25e).
+@inproceedings{kim2025correlated,
+  title     = {Correlated Errors in Large Language Models},
+  author    = {Kim, Elliot E. and Garg, Avi and Peng, Kenny and Garg, Nikhil},
+  booktitle = {International Conference on Machine Learning (ICML)},
+  series    = {PMLR},
+  volume    = {267},
+  year      = {2025},
+  url       = {https://proceedings.mlr.press/v267/kim25e.html}
+}
+
+% [V-ARXIV]
+@article{atlas2025,
+  title  = {Adaptive Testing for {LLM} Evaluation: A Psychometric Alternative to Static Benchmarks},
+  author = {Li, Peiyu and Tang, Xiuxiu and Chen, Si and Cheng, Ying and Metoyer, Ronald and Hua, Ting and Chawla, Nitesh V.},
+  journal = {arXiv preprint arXiv:2511.04689},
+  year   = {2025},
+  eprint = {2511.04689},
+  archivePrefix = {arXiv},
+  url    = {https://arxiv.org/abs/2511.04689},
+  note   = {Introduces ATLAS. Reported item-reduction figures differ slightly
+            between versions; cite the qualitative claim, not the exact number.}
+}
+
+% [V-ARXIV]
+@article{irtnet2025,
+  title  = {Learning Compact Representations of {LLM} Abilities via Item Response Theory},
+  author = {Chen, Jianhao and Wang, Chenxu and Zhang, Gengrui and Ye, Peng and Bai, Lei and Hu, Wei and Qu, Yuzhong and Hu, Shuyue},
+  journal = {arXiv preprint arXiv:2510.00844},
+  year   = {2025},
+  eprint = {2510.00844},
+  archivePrefix = {arXiv},
+  url    = {https://arxiv.org/abs/2510.00844},
+  note   = {Introduces IrtNet.}
+}
+
+% [V-ACL] Anthology BibTeX (2025.acl-long.761).
+@inproceedings{irtrouter2025,
+  title     = {{IRT}-Router: Effective and Interpretable Multi-{LLM} Routing via Item Response Theory},
+  author    = {Song, Wei and Huang, Zhenya and Cheng, Cheng and Gao, Weibo and Xu, Bihan and Zhao, GuanHao and Wang, Fei and Wu, Runze},
+  booktitle = {Proceedings of the 63rd Annual Meeting of the Association for Computational Linguistics (Volume 1: Long Papers)},
+  pages     = {15629--15644},
+  year      = {2025},
+  url       = {https://aclanthology.org/2025.acl-long.761/}
+}
+
+% [V-PUB] Author list, volume and pages from the AAAI OJS record; identical to
+% the BibTeX published by the authors in the official code repository.
+@inproceedings{psnirt2026,
+  title     = {Lost in Benchmarks? Rethinking Large Language Model Benchmarking with Item Response Theory},
+  author    = {Zhou, Hongli and Huang, Hui and Zhao, Ziqing and Han, Lvyuan and Wang, Huicheng and Chen, Kehai and Yang, Muyun and Bao, Wei and Dong, Jian and Xu, Bing and Zhu, Conghui and Cao, Hailong and Zhao, Tiejun},
+  booktitle = {Proceedings of the AAAI Conference on Artificial Intelligence},
+  volume    = {40},
+  pages     = {35085--35093},
+  year      = {2026},
+  eprint    = {2505.15055},
+  archivePrefix = {arXiv},
+  doi       = {10.1609/aaai.v40i41.40814},
+  url       = {https://ojs.aaai.org/index.php/AAAI/article/view/40814},
+  note      = {Introduces PSN-IRT.}
+}
+
+
+% ---------------------------------------------------------------------------
+% MODELS AND DATASETS USED
+% ---------------------------------------------------------------------------
+
+% [V-PUB] HuggingFace model card fetched (Qwen/Qwen2.5-7B-Instruct).
+@misc{qwen25,
+  title  = {Qwen2.5: A Party of Foundation Models},
+  author = {{Qwen Team}},
+  year   = {2024},
+  month  = {September},
+  url    = {https://qwenlm.github.io/blog/qwen2.5/}
+}
+
+% [V-PUB] Cited on the Qwen2.5 model card.
+@article{qwen2,
+  title  = {Qwen2 Technical Report},
+  author = {Yang, An and Yang, Baosong and Hui, Binyuan and Zheng, Bo and Yu, Bowen and Zhou, Chang and Li, Chengpeng and Li, Chengyuan and Liu, Dayiheng and Huang, Fei and others},
+  journal = {arXiv preprint arXiv:2407.10671},
+  year   = {2024},
+  eprint = {2407.10671},
+  archivePrefix = {arXiv},
+  url    = {https://arxiv.org/abs/2407.10671}
+}
+
+% [V-PUB] HuggingFace dataset card fetched: 500 rows.
+@misc{math500,
+  title        = {MATH-500},
+  author       = {{HuggingFace H4}},
+  year         = {2024},
+  howpublished = {HuggingFace dataset \texttt{HuggingFaceH4/MATH-500}},
+  url          = {https://huggingface.co/datasets/HuggingFaceH4/MATH-500},
+  note         = {The 500-problem MATH subset introduced by the PRM800K release of \citet{lightman2024verify}.}
+}
