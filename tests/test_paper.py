@@ -21,8 +21,8 @@ from src.analysis.paper import (
     build,
     write_csv,
 )
-from tests.synthetic import CORRECT_CLASS as G
-from tests.synthetic import make_cell, make_corpus
+from synthetic import CORRECT_CLASS as G
+from synthetic import make_cell, make_corpus
 
 np = pytest.importorskip("numpy")
 pytest.importorskip("matplotlib")

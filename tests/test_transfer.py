@@ -33,7 +33,7 @@ from src.analysis.transfer import (
     transfer_table,
 )
 from src.metrics import jaccard, spearman
-from tests.synthetic import corpus_from_probs
+from synthetic import corpus_from_probs
 
 np = pytest.importorskip("numpy")
 

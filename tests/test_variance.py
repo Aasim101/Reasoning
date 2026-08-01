@@ -28,7 +28,7 @@ from src.analysis.variance import (
     variance_decomposition,
 )
 from src.metrics import haldane_logit, haldane_logit_var, is_saturated
-from tests.synthetic import cell_from_counts, make_corpus, synthetic_design
+from synthetic import cell_from_counts, make_corpus, synthetic_design
 
 np = pytest.importorskip("numpy")
 

@@ -8,7 +8,7 @@ from src.analysis.glmm import (
     glmm_decomposition,
     parametric_bootstrap_null,
 )
-from tests.synthetic import synthetic_design
+from synthetic import synthetic_design
 
 np = pytest.importorskip("numpy")
 statsmodels = pytest.importorskip("statsmodels")

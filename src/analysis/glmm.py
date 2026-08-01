@@ -149,12 +149,9 @@ def _expand_binomial(df: Any, max_trials_per_cell: int = 16) -> Any:
             continue
         n_eff = min(n, max_trials_per_cell)
         p = k / n
-        if n <= max_trials_per_cell:
-            k_eff = k
-            n_eff = n
-        else:
-            n_eff = max_trials_per_cell
-            k_eff = round(k * n_eff / n)
+        k_eff = int(rng.binomial(n_eff, p))
+        rows.extend([{**base, "y": 1} for _ in range(k_eff)])
+        rows.extend([{**base, "y": 0} for _ in range(n_eff - k_eff)])
     return df.__class__(rows)
 
 

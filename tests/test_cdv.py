@@ -31,8 +31,8 @@ from src.analysis.cdv import (
     transferred_difficulty_allocation,
 )
 from src.analysis.corpus import Corpus
-from tests.synthetic import CORRECT_CLASS as G
-from tests.synthetic import make_cell, make_corpus
+from synthetic import CORRECT_CLASS as G
+from synthetic import make_cell, make_corpus
 
 np = pytest.importorskip("numpy")
 
