@@ -75,9 +75,9 @@ def test_parametric_null_centres_near_zero_on_h0():
         seed=11,
     )
     null = parametric_bootstrap_null(
-        corpus, "synth", None, n_draws=5, draw_seed=4
+        corpus, "synth", None, n_draws=15, draw_seed=4
     )
-    assert null["n_glmm_draws"] >= 3
-    assert null["glmm_item_config_null_mean"] == pytest.approx(0.0, abs=0.15)
-    if null["n_glmm_draws"] >= 10:
-        assert null["passes_calibration"] is True
+    assert null["n_glmm_draws"] >= 10
+    assert null["glmm_item_config_null_mean"] == pytest.approx(0.0, abs=0.20)
+    assert null["glmm_item_config_null_q95"] < 0.25
+    assert null["passes_calibration"] is True
