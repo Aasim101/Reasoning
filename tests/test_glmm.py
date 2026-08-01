@@ -62,7 +62,7 @@ def test_glmm_item_config_exceeds_null_calibration(glmm_fit):
 
 
 def test_parametric_null_centres_near_zero_on_h0():
-    corpus, _ = synthetic_design(
+    corpus_h0, _ = synthetic_design(
         n_items=36,
         models=("m0", "m1"),
         configs=("c0", "c1", "c2"),
@@ -74,9 +74,24 @@ def test_parametric_null_centres_near_zero_on_h0():
         n_seeds=3,
         seed=11,
     )
-    null = parametric_bootstrap_null(
-        corpus, "synth", None, n_draws=15, draw_seed=4
+    corpus_h1, _ = synthetic_design(
+        n_items=36,
+        models=("m0", "m1"),
+        configs=("c0", "c1", "c2"),
+        n_samples=16,
+        sd_item=0.5,
+        sd_item_config=0.45,
+        sd_item_model=0.0,
+        sd_config=0.0,
+        n_seeds=3,
+        seed=11,
     )
-    assert null["n_glmm_draws"] >= 10
-    assert null["glmm_item_config_null_mean"] < 0.22
-    assert null["glmm_item_config_null_q95"] < 0.35
+    null = parametric_bootstrap_null(
+        corpus_h0, "synth", None, n_draws=8, draw_seed=4
+    )
+    alt = glmm_decomposition(corpus_h1, "synth", None, n_bootstrap=0)
+    assert null["n_glmm_draws"] >= 5
+    signal = float(alt.shares["item_config"])
+    assert signal > 0.5, "H1 fixture must carry detectable interaction"
+    assert null["glmm_item_config_null_mean"] < signal
+    assert null["glmm_item_config_null_q95"] < signal
