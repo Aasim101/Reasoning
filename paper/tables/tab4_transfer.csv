@@ -1,0 +1,81 @@
+dataset,subset,pair_kind,a,b,model,rho_raw,rho_disatt,rho_disatt_ci_low,rho_disatt_ci_high,r_mm,disattenuation,n_items,n_bootstrap,config,r_mm_ci_low,r_mm_ci_high,n_seed_pairs,seeds,quantile,j_config,j_config_ci_low,j_config_ci_high,j_seed_null,j_seed_ci_low,j_seed_ci_high,excess_instability,excess_ci_low,excess_ci_high,n_config_pairs,boundary_tie_fraction,null_p,null_mean_j,null_n_draws,spec_permutation_p,spec_permutation_uninformative,interaction_permutation_p
+gsm8k,main,config,c0,c1,Qwen/Qwen2.5-1.5B-Instruct,0.854098,1.01361,1.01361,1.01361,0.842629,rho_raw / r_mm (METHOD_SPEC 5.3; both configs share r_mm),200,0,,,,,,,,,,,,,,,,,,,,,,,
+gsm8k,main,config,c0,c2,Qwen/Qwen2.5-1.5B-Instruct,0.872797,1.0358,1.0358,1.0358,0.842629,rho_raw / r_mm (METHOD_SPEC 5.3; both configs share r_mm),200,0,,,,,,,,,,,,,,,,,,,,,,,
+gsm8k,main,config,c1,c2,Qwen/Qwen2.5-1.5B-Instruct,0.829543,0.98447,0.98447,0.98447,0.842629,rho_raw / r_mm (METHOD_SPEC 5.3; both configs share r_mm),200,0,,,,,,,,,,,,,,,,,,,,,,,
+gsm8k,main,config,c0,c1,Qwen/Qwen2.5-3B-Instruct,0.800357,0.931844,0.931844,0.931844,0.858896,rho_raw / r_mm (METHOD_SPEC 5.3; both configs share r_mm),200,0,,,,,,,,,,,,,,,,,,,,,,,
+gsm8k,main,config,c0,c2,Qwen/Qwen2.5-3B-Instruct,0.829993,0.966349,0.966349,0.966349,0.858896,rho_raw / r_mm (METHOD_SPEC 5.3; both configs share r_mm),200,0,,,,,,,,,,,,,,,,,,,,,,,
+gsm8k,main,config,c1,c2,Qwen/Qwen2.5-3B-Instruct,0.796463,0.927311,0.927311,0.927311,0.858896,rho_raw / r_mm (METHOD_SPEC 5.3; both configs share r_mm),200,0,,,,,,,,,,,,,,,,,,,,,,,
+gsm8k,main,config,c0,c1,Qwen/Qwen2.5-7B-Instruct,0.719426,0.993313,0.993313,0.993313,0.724269,rho_raw / r_mm (METHOD_SPEC 5.3; both configs share r_mm),200,0,,,,,,,,,,,,,,,,,,,,,,,
+gsm8k,main,config,c0,c2,Qwen/Qwen2.5-7B-Instruct,0.582213,0.803863,0.803863,0.803863,0.724269,rho_raw / r_mm (METHOD_SPEC 5.3; both configs share r_mm),200,0,,,,,,,,,,,,,,,,,,,,,,,
+gsm8k,main,config,c1,c2,Qwen/Qwen2.5-7B-Instruct,0.633672,0.874913,0.874913,0.874913,0.724269,rho_raw / r_mm (METHOD_SPEC 5.3; both configs share r_mm),200,0,,,,,,,,,,,,,,,,,,,,,,,
+gsm8k,main,config,c0,c1,meta-llama/Llama-3.2-3B-Instruct,0.869769,,,,,rho_raw / r_mm (METHOD_SPEC 5.3; both configs share r_mm),199,0,,,,,,,,,,,,,,,,,,,,,,,
+gsm8k,main,config,c0,c2,meta-llama/Llama-3.2-3B-Instruct,0.924908,,,,,rho_raw / r_mm (METHOD_SPEC 5.3; both configs share r_mm),199,0,,,,,,,,,,,,,,,,,,,,,,,
+gsm8k,main,config,c1,c2,meta-llama/Llama-3.2-3B-Instruct,0.855873,,,,,rho_raw / r_mm (METHOD_SPEC 5.3; both configs share r_mm),200,0,,,,,,,,,,,,,,,,,,,,,,,
+gsm8k,main,model,Qwen/Qwen2.5-1.5B-Instruct,Qwen/Qwen2.5-3B-Instruct,Qwen/Qwen2.5-1.5B-Instruct|Qwen/Qwen2.5-3B-Instruct,0.663537,0.779968,0.779968,0.779968,0.850723,rho_raw / sqrt(r_a*r_b) (reliabilities differ across models),200,0,,,,,,,,,,,,,,,,,,,,,,,
+gsm8k,main,model,Qwen/Qwen2.5-1.5B-Instruct,Qwen/Qwen2.5-7B-Instruct,Qwen/Qwen2.5-1.5B-Instruct|Qwen/Qwen2.5-7B-Instruct,0.43284,0.554063,0.554063,0.554063,0.78121,rho_raw / sqrt(r_a*r_b) (reliabilities differ across models),200,0,,,,,,,,,,,,,,,,,,,,,,,
+gsm8k,main,family,Qwen/Qwen2.5-1.5B-Instruct,meta-llama/Llama-3.2-3B-Instruct,Qwen/Qwen2.5-1.5B-Instruct|meta-llama/Llama-3.2-3B-Instruct,0.656391,,,,,rho_raw / sqrt(r_a*r_b) (reliabilities differ across models),199,0,,,,,,,,,,,,,,,,,,,,,,,
+gsm8k,main,model,Qwen/Qwen2.5-3B-Instruct,Qwen/Qwen2.5-7B-Instruct,Qwen/Qwen2.5-3B-Instruct|Qwen/Qwen2.5-7B-Instruct,0.439548,0.557297,0.557297,0.557297,0.788715,rho_raw / sqrt(r_a*r_b) (reliabilities differ across models),200,0,,,,,,,,,,,,,,,,,,,,,,,
+gsm8k,main,family,Qwen/Qwen2.5-3B-Instruct,meta-llama/Llama-3.2-3B-Instruct,Qwen/Qwen2.5-3B-Instruct|meta-llama/Llama-3.2-3B-Instruct,0.728023,,,,,rho_raw / sqrt(r_a*r_b) (reliabilities differ across models),199,0,,,,,,,,,,,,,,,,,,,,,,,
+gsm8k,main,family,Qwen/Qwen2.5-7B-Instruct,meta-llama/Llama-3.2-3B-Instruct,Qwen/Qwen2.5-7B-Instruct|meta-llama/Llama-3.2-3B-Instruct,0.440427,,,,,rho_raw / sqrt(r_a*r_b) (reliabilities differ across models),199,0,,,,,,,,,,,,,,,,,,,,,,,
+gsm_symbolic,main,config,c0,c1,Qwen/Qwen2.5-1.5B-Instruct,0.860769,,,,,rho_raw / r_mm (METHOD_SPEC 5.3; both configs share r_mm),150,0,,,,,,,,,,,,,,,,,,,,,,,
+gsm_symbolic,main,config,c0,c2,Qwen/Qwen2.5-1.5B-Instruct,0.843619,,,,,rho_raw / r_mm (METHOD_SPEC 5.3; both configs share r_mm),150,0,,,,,,,,,,,,,,,,,,,,,,,
+gsm_symbolic,main,config,c1,c2,Qwen/Qwen2.5-1.5B-Instruct,0.860846,,,,,rho_raw / r_mm (METHOD_SPEC 5.3; both configs share r_mm),150,0,,,,,,,,,,,,,,,,,,,,,,,
+gsm_symbolic,main,config,c0,c1,Qwen/Qwen2.5-3B-Instruct,0.870065,,,,,rho_raw / r_mm (METHOD_SPEC 5.3; both configs share r_mm),150,0,,,,,,,,,,,,,,,,,,,,,,,
+gsm_symbolic,main,config,c0,c2,Qwen/Qwen2.5-3B-Instruct,0.84446,,,,,rho_raw / r_mm (METHOD_SPEC 5.3; both configs share r_mm),150,0,,,,,,,,,,,,,,,,,,,,,,,
+gsm_symbolic,main,config,c1,c2,Qwen/Qwen2.5-3B-Instruct,0.894747,,,,,rho_raw / r_mm (METHOD_SPEC 5.3; both configs share r_mm),150,0,,,,,,,,,,,,,,,,,,,,,,,
+gsm_symbolic,main,config,c0,c1,Qwen/Qwen2.5-7B-Instruct,0.838211,,,,,rho_raw / r_mm (METHOD_SPEC 5.3; both configs share r_mm),150,0,,,,,,,,,,,,,,,,,,,,,,,
+gsm_symbolic,main,config,c0,c2,Qwen/Qwen2.5-7B-Instruct,0.681424,,,,,rho_raw / r_mm (METHOD_SPEC 5.3; both configs share r_mm),150,0,,,,,,,,,,,,,,,,,,,,,,,
+gsm_symbolic,main,config,c1,c2,Qwen/Qwen2.5-7B-Instruct,0.758463,,,,,rho_raw / r_mm (METHOD_SPEC 5.3; both configs share r_mm),150,0,,,,,,,,,,,,,,,,,,,,,,,
+gsm_symbolic,main,model,Qwen/Qwen2.5-1.5B-Instruct,Qwen/Qwen2.5-3B-Instruct,Qwen/Qwen2.5-1.5B-Instruct|Qwen/Qwen2.5-3B-Instruct,0.675332,,,,,rho_raw / sqrt(r_a*r_b) (reliabilities differ across models),150,0,,,,,,,,,,,,,,,,,,,,,,,
+gsm_symbolic,main,model,Qwen/Qwen2.5-1.5B-Instruct,Qwen/Qwen2.5-7B-Instruct,Qwen/Qwen2.5-1.5B-Instruct|Qwen/Qwen2.5-7B-Instruct,0.636564,,,,,rho_raw / sqrt(r_a*r_b) (reliabilities differ across models),150,0,,,,,,,,,,,,,,,,,,,,,,,
+gsm_symbolic,main,model,Qwen/Qwen2.5-3B-Instruct,Qwen/Qwen2.5-7B-Instruct,Qwen/Qwen2.5-3B-Instruct|Qwen/Qwen2.5-7B-Instruct,0.596018,,,,,rho_raw / sqrt(r_a*r_b) (reliabilities differ across models),150,0,,,,,,,,,,,,,,,,,,,,,,,
+gsm_symbolic,p2,config,c0,c1,Qwen/Qwen2.5-1.5B-Instruct,0.737173,,,,,rho_raw / r_mm (METHOD_SPEC 5.3; both configs share r_mm),150,0,,,,,,,,,,,,,,,,,,,,,,,
+gsm_symbolic,p2,config,c0,c2,Qwen/Qwen2.5-1.5B-Instruct,0.789307,,,,,rho_raw / r_mm (METHOD_SPEC 5.3; both configs share r_mm),150,0,,,,,,,,,,,,,,,,,,,,,,,
+gsm_symbolic,p2,config,c1,c2,Qwen/Qwen2.5-1.5B-Instruct,0.742615,,,,,rho_raw / r_mm (METHOD_SPEC 5.3; both configs share r_mm),150,0,,,,,,,,,,,,,,,,,,,,,,,
+gsm_symbolic,p2,config,c0,c1,Qwen/Qwen2.5-3B-Instruct,0.895162,,,,,rho_raw / r_mm (METHOD_SPEC 5.3; both configs share r_mm),150,0,,,,,,,,,,,,,,,,,,,,,,,
+gsm_symbolic,p2,config,c0,c2,Qwen/Qwen2.5-3B-Instruct,0.914506,,,,,rho_raw / r_mm (METHOD_SPEC 5.3; both configs share r_mm),150,0,,,,,,,,,,,,,,,,,,,,,,,
+gsm_symbolic,p2,config,c1,c2,Qwen/Qwen2.5-3B-Instruct,0.908266,,,,,rho_raw / r_mm (METHOD_SPEC 5.3; both configs share r_mm),150,0,,,,,,,,,,,,,,,,,,,,,,,
+gsm_symbolic,p2,config,c0,c1,Qwen/Qwen2.5-7B-Instruct,0.8579,,,,,rho_raw / r_mm (METHOD_SPEC 5.3; both configs share r_mm),150,0,,,,,,,,,,,,,,,,,,,,,,,
+gsm_symbolic,p2,config,c0,c2,Qwen/Qwen2.5-7B-Instruct,0.755474,,,,,rho_raw / r_mm (METHOD_SPEC 5.3; both configs share r_mm),150,0,,,,,,,,,,,,,,,,,,,,,,,
+gsm_symbolic,p2,config,c1,c2,Qwen/Qwen2.5-7B-Instruct,0.80655,,,,,rho_raw / r_mm (METHOD_SPEC 5.3; both configs share r_mm),150,0,,,,,,,,,,,,,,,,,,,,,,,
+gsm_symbolic,p2,model,Qwen/Qwen2.5-1.5B-Instruct,Qwen/Qwen2.5-3B-Instruct,Qwen/Qwen2.5-1.5B-Instruct|Qwen/Qwen2.5-3B-Instruct,0.568924,,,,,rho_raw / sqrt(r_a*r_b) (reliabilities differ across models),150,0,,,,,,,,,,,,,,,,,,,,,,,
+gsm_symbolic,p2,model,Qwen/Qwen2.5-1.5B-Instruct,Qwen/Qwen2.5-7B-Instruct,Qwen/Qwen2.5-1.5B-Instruct|Qwen/Qwen2.5-7B-Instruct,0.596662,,,,,rho_raw / sqrt(r_a*r_b) (reliabilities differ across models),150,0,,,,,,,,,,,,,,,,,,,,,,,
+gsm_symbolic,p2,model,Qwen/Qwen2.5-3B-Instruct,Qwen/Qwen2.5-7B-Instruct,Qwen/Qwen2.5-3B-Instruct|Qwen/Qwen2.5-7B-Instruct,0.59131,,,,,rho_raw / sqrt(r_a*r_b) (reliabilities differ across models),150,0,,,,,,,,,,,,,,,,,,,,,,,
+math500,,config,c0,c1,Qwen/Qwen2.5-1.5B-Instruct,0.940645,0.999983,0.999983,0.999983,0.940661,rho_raw / r_mm (METHOD_SPEC 5.3; both configs share r_mm),200,0,,,,,,,,,,,,,,,,,,,,,,,
+math500,,config,c0,c2,Qwen/Qwen2.5-1.5B-Instruct,0.953673,1.01383,1.01383,1.01383,0.940661,rho_raw / r_mm (METHOD_SPEC 5.3; both configs share r_mm),200,0,,,,,,,,,,,,,,,,,,,,,,,
+math500,,config,c1,c2,Qwen/Qwen2.5-1.5B-Instruct,0.942106,1.00154,1.00154,1.00154,0.940661,rho_raw / r_mm (METHOD_SPEC 5.3; both configs share r_mm),200,0,,,,,,,,,,,,,,,,,,,,,,,
+math500,,config,c0,c1,Qwen/Qwen2.5-3B-Instruct,0.969806,1.00936,1.00936,1.00936,0.960812,rho_raw / r_mm (METHOD_SPEC 5.3; both configs share r_mm),200,0,,,,,,,,,,,,,,,,,,,,,,,
+math500,,config,c0,c2,Qwen/Qwen2.5-3B-Instruct,0.971071,1.01068,1.01068,1.01068,0.960812,rho_raw / r_mm (METHOD_SPEC 5.3; both configs share r_mm),200,0,,,,,,,,,,,,,,,,,,,,,,,
+math500,,config,c1,c2,Qwen/Qwen2.5-3B-Instruct,0.978428,1.01834,1.01834,1.01834,0.960812,rho_raw / r_mm (METHOD_SPEC 5.3; both configs share r_mm),200,0,,,,,,,,,,,,,,,,,,,,,,,
+math500,,config,c0,c1,Qwen/Qwen2.5-7B-Instruct,0.908608,0.969496,0.969496,0.969496,0.937196,rho_raw / r_mm (METHOD_SPEC 5.3; both configs share r_mm),200,0,,,,,,,,,,,,,,,,,,,,,,,
+math500,,config,c0,c2,Qwen/Qwen2.5-7B-Instruct,0.913264,0.974465,0.974465,0.974465,0.937196,rho_raw / r_mm (METHOD_SPEC 5.3; both configs share r_mm),200,0,,,,,,,,,,,,,,,,,,,,,,,
+math500,,config,c1,c2,Qwen/Qwen2.5-7B-Instruct,0.920157,0.981819,0.981819,0.981819,0.937196,rho_raw / r_mm (METHOD_SPEC 5.3; both configs share r_mm),200,0,,,,,,,,,,,,,,,,,,,,,,,
+math500,,config,c0,c1,meta-llama/Llama-3.2-3B-Instruct,0.92474,,,,,rho_raw / r_mm (METHOD_SPEC 5.3; both configs share r_mm),200,0,,,,,,,,,,,,,,,,,,,,,,,
+math500,,config,c0,c2,meta-llama/Llama-3.2-3B-Instruct,0.943986,,,,,rho_raw / r_mm (METHOD_SPEC 5.3; both configs share r_mm),200,0,,,,,,,,,,,,,,,,,,,,,,,
+math500,,config,c1,c2,meta-llama/Llama-3.2-3B-Instruct,0.936854,,,,,rho_raw / r_mm (METHOD_SPEC 5.3; both configs share r_mm),200,0,,,,,,,,,,,,,,,,,,,,,,,
+math500,,model,Qwen/Qwen2.5-1.5B-Instruct,Qwen/Qwen2.5-3B-Instruct,Qwen/Qwen2.5-1.5B-Instruct|Qwen/Qwen2.5-3B-Instruct,0.880238,0.925901,0.925901,0.925901,0.950683,rho_raw / sqrt(r_a*r_b) (reliabilities differ across models),200,0,,,,,,,,,,,,,,,,,,,,,,,
+math500,,model,Qwen/Qwen2.5-1.5B-Instruct,Qwen/Qwen2.5-7B-Instruct,Qwen/Qwen2.5-1.5B-Instruct|Qwen/Qwen2.5-7B-Instruct,0.778374,0.829004,0.829004,0.829004,0.938927,rho_raw / sqrt(r_a*r_b) (reliabilities differ across models),200,0,,,,,,,,,,,,,,,,,,,,,,,
+math500,,family,Qwen/Qwen2.5-1.5B-Instruct,meta-llama/Llama-3.2-3B-Instruct,Qwen/Qwen2.5-1.5B-Instruct|meta-llama/Llama-3.2-3B-Instruct,0.838826,,,,,rho_raw / sqrt(r_a*r_b) (reliabilities differ across models),200,0,,,,,,,,,,,,,,,,,,,,,,,
+math500,,model,Qwen/Qwen2.5-3B-Instruct,Qwen/Qwen2.5-7B-Instruct,Qwen/Qwen2.5-3B-Instruct|Qwen/Qwen2.5-7B-Instruct,0.877861,0.925106,0.925106,0.925106,0.94893,rho_raw / sqrt(r_a*r_b) (reliabilities differ across models),200,0,,,,,,,,,,,,,,,,,,,,,,,
+math500,,family,Qwen/Qwen2.5-3B-Instruct,meta-llama/Llama-3.2-3B-Instruct,Qwen/Qwen2.5-3B-Instruct|meta-llama/Llama-3.2-3B-Instruct,0.840358,,,,,rho_raw / sqrt(r_a*r_b) (reliabilities differ across models),200,0,,,,,,,,,,,,,,,,,,,,,,,
+math500,,family,Qwen/Qwen2.5-7B-Instruct,meta-llama/Llama-3.2-3B-Instruct,Qwen/Qwen2.5-7B-Instruct|meta-llama/Llama-3.2-3B-Instruct,0.76377,,,,,rho_raw / sqrt(r_a*r_b) (reliabilities differ across models),200,0,,,,,,,,,,,,,,,,,,,,,,,
+gsm8k,main,reliability,,,Qwen/Qwen2.5-1.5B-Instruct,,,,,0.842629,,199,,c0,0.842629,0.842629,3,"0,1,2",,,,,,,,,,,,,,,,,,
+gsm8k,main,reliability,,,Qwen/Qwen2.5-3B-Instruct,,,,,0.858896,,200,,c0,0.858896,0.858896,3,"0,1,2",,,,,,,,,,,,,,,,,,
+gsm8k,main,reliability,,,Qwen/Qwen2.5-7B-Instruct,,,,,0.724269,,200,,c0,0.724269,0.724269,3,"0,1,2",,,,,,,,,,,,,,,,,,
+math500,,reliability,,,Qwen/Qwen2.5-1.5B-Instruct,,,,,0.940661,,199,,c0,0.940661,0.940661,3,"0,1,2",,,,,,,,,,,,,,,,,,
+math500,,reliability,,,Qwen/Qwen2.5-3B-Instruct,,,,,0.960812,,200,,c0,0.960812,0.960812,3,"0,1,2",,,,,,,,,,,,,,,,,,
+math500,,reliability,,,Qwen/Qwen2.5-7B-Instruct,,,,,0.937196,,200,,c0,0.937196,0.937196,3,"0,1,2",,,,,,,,,,,,,,,,,,
+gsm8k,main,overlap,,,Qwen/Qwen2.5-1.5B-Instruct,,,,,,,199,,,,,3,,0.25,0.686132,0.69524,0.69524,0.724138,0.714397,0.714397,0.0380054,0.0191571,0.0191571,3,0.0452261,0.830846,0.653163,200,1,true,1
+gsm8k,main,overlap,,,Qwen/Qwen2.5-3B-Instruct,,,,,,,200,,,,,3,,0.25,0.785714,0.796537,0.796537,0.88724,0.863499,0.863499,0.101526,0.0669619,0.0669619,3,0.025,0.139303,0.818084,200,1,true,1
+gsm8k,main,overlap,,,Qwen/Qwen2.5-7B-Instruct,,,,,,,200,,,,,3,,0.25,0.523396,0.539202,0.539202,0.643089,0.687401,0.687401,0.119692,0.1482,0.1482,3,0.065,0.00995025,0.624204,200,1,true,1
+gsm8k,main,overlap,,,meta-llama/Llama-3.2-3B-Instruct,,,,,,,199,,,,,0,,0.25,0.715064,0.715064,0.715064,,,,,,,3,0.0201005,0.0149254,0.778394,200,1,true,1
+gsm_symbolic,main,overlap,,,Qwen/Qwen2.5-1.5B-Instruct,,,,,,,150,,,,,0,,0.25,0.595021,0.562222,0.562222,,,,,,,3,0.0866667,0.303483,0.621069,200,1,true,1
+gsm_symbolic,main,overlap,,,Qwen/Qwen2.5-3B-Instruct,,,,,,,150,,,,,0,,0.25,0.61042,0.57792,0.57792,,,,,,,3,0.0466667,0.00497512,0.738568,200,1,true,1
+gsm_symbolic,main,overlap,,,Qwen/Qwen2.5-7B-Instruct,,,,,,,150,,,,,0,,0.25,0.703912,0.703912,0.703912,,,,,,,3,0.02,0.00995025,0.800354,200,1,true,1
+gsm_symbolic,p2,overlap,,,Qwen/Qwen2.5-1.5B-Instruct,,,,,,,150,,,,,0,,0.25,0.573021,0.501661,0.501661,,,,,,,3,0.446667,0.124378,0.618832,200,1,true,1
+gsm_symbolic,p2,overlap,,,Qwen/Qwen2.5-3B-Instruct,,,,,,,150,,,,,0,,0.25,0.573021,0.594563,0.594563,,,,,,,3,0.0533333,0.039801,0.645611,200,1,true,1
+gsm_symbolic,p2,overlap,,,Qwen/Qwen2.5-7B-Instruct,,,,,,,150,,,,,0,,0.25,0.729657,0.755285,0.755285,,,,,,,3,0.02,0.0547264,0.794478,200,1,true,1
+math500,,overlap,,,Qwen/Qwen2.5-1.5B-Instruct,,,,,,,199,,,,,3,,0.25,0.686132,0.677319,0.677319,0.622837,0.630531,0.630531,-0.0632955,-0.0467882,-0.0467882,3,0.0653266,0.641791,0.675772,200,1,true,1
+math500,,overlap,,,Qwen/Qwen2.5-3B-Instruct,,,,,,,200,,,,,3,,0.25,0.829806,0.840629,0.840629,0.764829,0.765569,0.765569,-0.0649773,-0.0750599,-0.0750599,3,0.015,0.402985,0.837527,200,1,true,1
+math500,,overlap,,,Qwen/Qwen2.5-7B-Instruct,,,,,,,200,,,,,3,,0.25,0.754386,0.765189,0.765189,0.863499,0.886792,0.886792,0.109113,0.121604,0.121604,3,0.035,0.0497512,0.795288,200,1,true,1
+math500,,overlap,,,meta-llama/Llama-3.2-3B-Instruct,,,,,,,200,,,,,0,,0.25,0.604649,0.605717,0.605717,,,,,,,3,0.08,0.0199005,0.673519,200,1,true,1

@@ -1,0 +1,33 @@
+# Test-time-compute baseline: self-consistency with k=8 samples.
+# Costs ~8x the completion tokens of the CoT baseline, so budget ~8x the time.
+# The accuracy-vs-compute figure is the honest way to present this.
+defaults: base.yaml
+
+data:
+  name: gsm8k
+  split: test
+  subset: main
+  subsample: 200
+  subsample_seed: 1234
+
+strategy:
+  name: self_consistency
+  params:
+    k: 8
+    temperature: 0.7
+    top_p: 0.95
+
+generation:
+  max_new_tokens: 512
+  # Sampling params live in the strategy; the run-level temperature is unused
+  # for this cell but kept explicit for the config hash.
+  temperature: 0.7
+  top_p: 0.95
+  batch_size: 4
+
+runtime:
+  # 8 samples per example: halve the example count or expect ~8x the wall clock.
+  time_budget_hours: 8.0
+
+tags:
+  paper_cell: gsm8k_self_consistency

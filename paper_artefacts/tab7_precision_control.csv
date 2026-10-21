@@ -1,0 +1,4 @@
+precision,share_item,share_model,share_config,share_item_model,share_item_config,share_model_config,share_residual,rho_disatt,r_mm,j_config,pi_mode,reorder_rate,mean_margin,n_cells,prediction,statement,supported
+fp16,0.526124,0.281991,0.00237999,0.15657,0.0030807,0.0143334,0.0155211,0.972832,0.87741,0.669309,0.723372,0.216367,0.517147,10500,,,
+4bit,0.578893,0.31321,0.0021124,0.104568,0.00114359,7.2862e-05,0,,,0.684768,0.563262,0.328106,0.316291,1200,,,
+delta_4bit_minus_fp16,0.052769,0.0312195,-0.000267591,-0.0520022,-0.0019371,-0.0142605,-0.0155211,,,0.0154582,-0.16011,0.111739,-0.200856,-9300,P7,the variance decomposition and difficulty-transfer conclusions are unchanged at 4-bit: item x config share moves by under 5 points and rho_disatt by under 0.10,false

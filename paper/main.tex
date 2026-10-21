@@ -1,0 +1,464 @@
+%%%%%%%% ICML 2027 submission (style adapted from ICML 2026 official kit) %%%%%
+% Swap icml2027.sty -> official icml2027.sty when the 2027 author kit is released.
+\documentclass{article}
+
+\usepackage{microtype}
+\usepackage{graphicx}
+\usepackage{subcaption}
+\usepackage{booktabs}
+\usepackage{multirow}
+\usepackage{hyperref}
+\newcommand{\theHalgorithm}{\arabic{algorithm}}
+
+% Blind review (default). For camera-ready: \usepackage[accepted]{icml2027}
+\usepackage{icml2027}
+
+\usepackage{amsmath,amssymb,amsthm}
+\usepackage{mathtools}
+\usepackage{xcolor}
+\usepackage{url}
+\usepackage{algorithm}
+\usepackage{algpseudocode}
+\usepackage[capitalize,noabbrev]{cleveref}
+
+\newcommand{\pmode}{\pi_{\mathrm{mode}}}
+\newcommand{\phat}{\hat{p}}
+\newcommand{\rdis}{\rho_{\mathrm{disatt}}}
+
+\icmltitlerunning{The Self-Consistency Ceiling Is Not a Model Constant}
+
+\begin{document}
+
+\twocolumn[
+\icmltitle{The Self-Consistency Ceiling Is Not a Model Constant:\\
+Modal Answers Are a Model\,$\times$\,Elicitation Property}
+
+\begin{icmlauthorlist}
+  \icmlauthor{Anonymous Author}{anon}
+\end{icmlauthorlist}
+\icmlaffiliation{anon}{Anonymous Institution}
+\icmlcorrespondingauthor{Anonymous Author}{anonymous@domain.edu}
+\icmlkeywords{reasoning, self-consistency, elicitation, test-time compute, variance decomposition}
+
+\vskip 0.3in
+]
+
+\printAffiliationsAndNotice{}
+
+\begin{abstract}
+Recent work bounds self-consistency by a \emph{modal ceiling} $\pmode$: the
+fraction of items whose plurality answer is correct. Coverage can keep climbing
+while selection plateaus---the \emph{identifiability gap}. The literature often
+treats $\pmode$ as a property of a model on a benchmark. We ask whether
+semantics-preserving elicitation changes the mode under \emph{sampled}
+chain-of-thought on free-generation math, and whether spreading a fixed token
+budget across configurations (configuration-diversified voting; CDV) can raise
+that plateau. On a fully crossed grid over items, Qwen2.5\,\{1.5B,3B,7B\},
+Llama-3.2-3B, and three core configurations with seed replicates, plug-in
+$\pmode$ (maj@$N$) moves by more than 3\,pp on several cells---up to 13.3\,pp on
+GSM-Symbolic---so ceilings are model--prompt properties (P4 supported). Mode
+reorderings occur (mean 21.6\% of items) and concentrate on small-margin items,
+but destructive transitions outpace corrective ones. Pre-registered token-matched
+CDV does \textbf{not} beat single-configuration self-consistency (P5/F3
+unsupported). Moment item\,$\times$\,config shares stay ${<}1\%$ despite ceiling
+movement. Reported reasoning boundaries should be stated for a model--prompt
+pair; configuration diversity alone is not a free lift of the modal plateau.
+\end{abstract}
+
+% ============================================================================
+\section{Introduction}
+\label{sec:intro}
+% ============================================================================
+
+Progress in language-model reasoning is increasingly mediated by how a model
+\emph{selects} an answer under sampling. Compute-optimal test-time scaling bins
+items by estimated difficulty~\citep{snell2024scaling}; adaptive
+self-consistency stops when a vote looks decided~\citep{aggarwal2023adaptive,li2024esc};
+and analyses that explain why extra samples stop helping bound selection by the
+\emph{modal-hit rate} $\pmode$---the fraction of items whose plurality answer is
+correct~\citep{brown2024monkeys,blendasc2025,certifiedsc2025}. More i.i.d.\ samples
+estimate the mode more precisely; they cannot change which class is modal. If
+elicitation changes the mode, then $\pmode$ is not a model constant.
+
+That ``elicitation matters'' is established at the item level on
+log-prob-scored suites~\citep{brittlebench2026,tee2026} and for unstable hardness
+labels~\citep{hardunreached2026}. What these works do \textbf{not} examine is
+whether sensitivity reaches the \textbf{mode} on \textbf{sampled} chain-of-thought
+for free-generation math, where binomial noise is load-bearing, or whether
+spreading budget across configurations can raise $\pmode$.
+
+We ask three questions. \textbf{(Q1)} Does $\pmode$ move across
+semantics-preserving elicitation configurations for the same item and model?
+\textbf{(Q2)} If so, is the movement explained by \emph{reordering} of top answer
+classes on small-margin items? \textbf{(Q3)} Can \emph{configuration-diversified
+voting} (CDV) raise the plateau above single-configuration self-consistency at a
+matched token budget, while temperature-diversified sampling does not?
+Supporting measurement (Q4): item\,$\times$\,configuration structure in a crossed
+decomposition, and difficulty-label transfer.
+
+Answering these requires a fully crossed item\,$\times$\,model\,$\times$\,configuration
+grid, independent-seed replicates within a reference configuration (noise floor),
+and budget matching in \emph{output tokens} rather than sample count. We build
+all three. Extended related work is in \cref{app:related}.
+
+\paragraph{Contributions.}
+\begin{enumerate}\itemsep1pt
+  \item \textbf{$\pmode$ is configuration-relative (Q1).}
+ Plug-in modal ceilings
+    move by ${>}3$\,pp across core configurations on multiple
+    model$\times$benchmark cells (Table~\ref{tab:main-acc}; \cref{fig:ceiling}).
+  \item \textbf{Mode reordering (Q2).} Configurations reorder top answer classes
+    (mean reorder rate $21.6\%$), concentrated on small-margin items; destructive
+    transitions exceed corrective ones (\cref{fig:reorder}).
+  \item \textbf{CDV does not raise the plateau (Q3; licensed negative).}
+ At
+    matched completion-token budgets, CDV fails to beat single-configuration
+    self-consistency on this grid (\cref{fig:cdv}; P5/F3 unsupported).
+  \item \textbf{Supporting measurement (Q4).} Moment item\,$\times$\,config shares
+    are tiny (${<}1\%$) despite P4 movement; transferred-difficulty allocation
+    often retains less gain than configuration-aware allocation
+    (\cref{fig:variance,fig:transfer}).
+\end{enumerate}
+
+\paragraph{What is new.} We do not claim first discovery of prompt sensitivity
+\citep{brittlebench2026,tee2026,prompteval2024,sclar2024formatspread}. Our claim is
+that sensitivity reaches the \emph{mode} that caps self-consistency under sampled
+reasoning, measured with a design that can falsify both the ceiling claim and the
+CDV intervention.
+
+% ============================================================================
+\section{Method}
+\label{sec:method}
+% ============================================================================
+
+A single sampling corpus supports every quantity offline: no training and no
+extra generation for CDV.
+
+\paragraph{Notation.}
+For each cell $(i,m,c,s)$ we draw $N$ chains, extract and canonicalise answers,
+and record $k_{imcs}$ correct. Write $\phat_{imcs}=k/N$ and the Haldane logit
+$z=\log\frac{k+1/2}{N-k+1/2}$. An \emph{elicitation configuration} perturbs
+everything except mathematical content. Core set $\{c_0,c_1,c_2\}$:
+\begin{itemize}\itemsep1pt
+  \item $c_0$: neutral system (``helpful assistant''), zero-shot CoT, $T{=}0.8$;
+  \item $c_1$: expert-mathematician system prompt; else as $c_0$;
+  \item $c_2$: family-minimal / default-system rendering (audited per family).
+\end{itemize}
+Parse ($c_3$), few-shot, and temperature axes are separate; $c_5$ appears only in
+temperature-diversified SC (B4).
+
+\paragraph{Modal ceiling.}
+Plurality class $a^\star$ over $N$ samples; $\pmode(m,c)$ is the fraction of
+items with $a^\star$ correct. Gap: $\mathrm{pass@}N-\pmode$. We measure
+$\pmode$ ourselves~\citep{brown2024monkeys,bay2026modal}.
+
+\paragraph{Supporting GLMM / moments.}
+Crossed binomial GLMM following~\citet{tee2026,prompteval2024}; draft artefacts
+use a method-of-moments decomposition on Haldane logits with
+\texttt{--skip-glmm} (camera-ready reruns VB-GLMM). Seed replicates at $c_0$
+supply the noise floor and $r_{mm}$ for disattenuation
+$\rdis=\rho_{\mathrm{raw}}/r_{mm}$. Hard-subset Jaccard across configs vs.\ seeds
+measures excess instability.
+
+\paragraph{CDV.}
+Split token budget $B$ evenly across $\mathcal{C}_{\mathrm{use}}=\{c_0,c_1,c_2\}$,
+pool answer classes, return plurality (\cref{alg:cdv}). Compare to SC and
+temperature-diversified SC at matched tokens. Primary test P5/F3: plug-in
+$\pmode(\mathrm{CDV})$ vs.\ $\pmode(c_0)$.
+
+\begin{algorithm}[t]
+\caption{Configuration-Diversified Voting (CDV)}
+\label{alg:cdv}
+\begin{algorithmic}[1]
+\Require item $i$, model $m$, token budget $B$, set $\mathcal{C}_{\mathrm{use}}$
+\State $b \gets B / |\mathcal{C}_{\mathrm{use}}|$
+\State $P \gets \emptyset$
+\For{$c \in \mathcal{C}_{\mathrm{use}}$}
+  \State draw chains from $(i,m,c)$ until cumulative output tokens reach $b$; add classes to $P$
+\EndFor
+\State \Return $\arg\max_{a}\#\{a\in P\}$
+\end{algorithmic}
+\end{algorithm}
+
+% ============================================================================
+\section{Experimental Setup}
+\label{sec:setup}
+% ============================================================================
+
+\paragraph{Models.}
+\texttt{Qwen/Qwen2.5-\{1.5B,3B,7B\}-Instruct}~\citep{qwen25,qwen2} and
+\texttt{meta-llama/Llama-3.2-3B-Instruct}. Inference with Hugging Face
+\texttt{float16}, \texttt{device\_map=auto}, on $1$--$2\times$ NVIDIA T4 (16\,GB).
+Precision control: NF4 4-bit on 1.5B/3B MATH-500 only.
+
+\paragraph{Benchmarks.}
+MATH-500~\citep{math500} (headline; 200-item subsample), GSM8K~\citep{cobbe2021gsm8k}
+(secondary; contamination risk~\citep{zhang2024gsm1k}), and GSM-Symbolic
+main/p2~\citep{mirzadeh2025gsmsymbolic} (150 items; stress test). Fixed item-index
+files are shipped with the harness.
+
+\paragraph{Sampling.}
+Strategy \texttt{configured\_sampling}, $N{=}24$ chains/item (O2: $N{=}64$ on
+Qwen2.5-3B$\times$MATH-500$\times\{c_0..c_3\}$), $T{=}0.8$, $\mathrm{top\_p}{=}0.95$,
+\texttt{max\_new\_tokens}${=}1024$. Seeds $\{0,1,2\}$ at $c_0$ for Qwen ladder
+noise floors; headline table uses seed~$0$. Answers: extract then symbolic
+canonicalisation; extraction-failure rates logged in T1/T2.
+
+\paragraph{Corpus.}
+66 complete graded runs in the fp16/4-bit split ($61$ fp16 + $6$ 4-bit
+directories; \texttt{tab1\_setup.csv}). Analysis:
+\texttt{python -m src.analysis.paper} $\rightarrow$ Figures~F1--F8 / Tables~T1--T7
+in \texttt{paper\_artefacts/}. Draft build used \texttt{--skip-glmm --n-bootstrap 0};
+see Limitations.
+
+\paragraph{Pre-registered predictions.}
+P4: $\pmode$ range ${>}3$\,pp across $c_0$--$c_2$. P5: token-matched CDV $>$ SC
+and $>$ temperature SC. P1: item$\times$config share large vs.\ null. P7: 4-bit
+leaves shares/$\rdis$ nearly unchanged. Falsifiers F3/F4/F1 as in
+\texttt{docs/METHOD\_SPEC.md}.
+
+% ============================================================================
+\section{Results}
+\label{sec:results}
+% ============================================================================
+
+Unless noted, numbers are maj@$N$ plug-ins for $\pmode$ at seed~$0$ from
+\texttt{tab2\_main\_accuracy.csv}. For Qwen2.5-3B$\times$MATH-500 the loader
+keeps the deeper O2 cells ($N{=}64$) over $N{=}24$ duplicates.
+
+\subsection{Modal ceilings across configurations (Q1)}
+\label{sec:results-ceiling}
+
+\begin{table}[t]
+\centering
+\caption{Plug-in $\pmode$ (\%; maj@$N$) by configuration, seed~$0$, fp16.
+$N{=}24$ except Qwen2.5-3B$\times$MATH-500 ($N{=}64$, O2). Range $=\max-\min$
+over $c_0$--$c_2$ in percentage points. Bold: P4 supported ($>3$\,pp).}
+\label{tab:main-acc}
+\small
+\setlength{\tabcolsep}{3.5pt}
+\begin{tabular}{llrrrr}
+\toprule
+Model & Dataset & $c_0$ & $c_1$ & $c_2$ & Range \\
+\midrule
+Qwen2.5-1.5B & GSM8K & 74.5 & 73.5 & 68.0 & \textbf{6.5} \\
+Qwen2.5-1.5B & MATH-500 & 56.0 & 54.0 & 57.0 & 3.0 \\
+Qwen2.5-3B & GSM8K & 91.0 & 90.5 & 91.0 & 0.5 \\
+Qwen2.5-3B & MATH-500$^{\dagger}$ & 76.0 & 76.5 & 75.5 & 1.0 \\
+Qwen2.5-7B & GSM8K & 94.5 & 93.5 & 88.0 & \textbf{6.5} \\
+Qwen2.5-7B & MATH-500 & 82.0 & 80.0 & 81.5 & 2.0 \\
+Llama-3.2-3B & GSM8K & 89.9 & 88.5 & 87.0 & 2.9 \\
+Llama-3.2-3B & MATH-500 & 59.0 & 59.5 & 58.5 & 1.0 \\
+\midrule
+Qwen2.5-1.5B & Sym.\ main & 60.7 & 57.3 & 59.3 & \textbf{3.3} \\
+Qwen2.5-1.5B & Sym.\ p2 & 29.3 & 27.3 & 27.3 & 2.0 \\
+Qwen2.5-3B & Sym.\ main & 90.0 & 82.7 & 79.3 & \textbf{10.7} \\
+Qwen2.5-3B & Sym.\ p2 & 66.0 & 65.3 & 64.0 & 2.0 \\
+Qwen2.5-7B & Sym.\ main & 87.3 & 81.3 & 74.0 & \textbf{13.3} \\
+Qwen2.5-7B & Sym.\ p2 & 81.3 & 80.7 & 75.3 & \textbf{6.0} \\
+\bottomrule
+\end{tabular}\\[2pt]
+{\footnotesize $^{\dagger}$O2 deep-$N$ cells retained over $N{=}24$ duplicates.}
+\end{table}
+
+\textbf{P4 is supported on several cells, not universally.}
+Spreads exceed 3\,pp on 1.5B/7B GSM8K (both 6.5\,pp) and on GSM-Symbolic main for
+all three Qwen sizes (3.3 / 10.7 / 13.3\,pp), plus 7B Symbolic p2 (6.0\,pp).
+3B GSM8K (0.5\,pp) and Llama GSM8K (2.9\,pp) miss the gate; MATH-500 aggregate
+ranges stay $\le 3$\,pp. Ceiling movement is real but model- and
+benchmark-dependent (\cref{fig:ceiling}; Symbolic panel in \cref{app:extra-figs}).
+
+\begin{figure}[t]
+\centering
+\includegraphics[width=\linewidth]{figures/fig4_ceiling_vs_coverage.pdf}
+\caption{Modal ceiling vs.\ coverage (artefact F4).}
+\label{fig:ceiling}
+\end{figure}
+
+\subsection{Configuration-diversified voting (Q3)}
+\label{sec:results-cdv}
+
+O2 on Qwen2.5-3B$\times$MATH-500 at $N{=}64$ gives maj@$64$ of
+76.0 / 76.5 / 75.5 / 76.4\% under $c_0$--$c_3$. Token-matched CDV
+(\cref{fig:cdv}; Table~T5) does \textbf{not} raise the modal plateau:
+\texttt{predictions.csv} has \texttt{cdv\_beats\_sc=false} (mean
+$\Delta$ at largest budget $\approx -0.5$\,pp) and every \texttt{F3\_primary}
+cell unsupported. CDV stays near SC and below oracle best-single / coverage
+bounds. We report the licensing negative for Q3.
+
+\begin{figure}[t]
+\centering
+\includegraphics[width=\linewidth]{figures/fig5_cdv_vs_sc.pdf}
+\caption{CDV vs.\ self-consistency under token-matched budgets (F5).}
+\label{fig:cdv}
+\end{figure}
+
+\subsection{Mode reordering (Q2)}
+\label{sec:results-reorder}
+
+Mean reorder rate $21.6\%$ of items; corrective $4.0\%$, destructive $6.4\%$
+(\cref{fig:reorder}; \texttt{mechanism\_supported=true}). Reorderings
+concentrate on small-margin items. Net corrective$-$destructive is negative,
+consistent with CDV failing to lift $\pmode$.
+
+\begin{figure}[t]
+\centering
+\includegraphics[width=\linewidth]{figures/fig6_reordering.pdf}
+\caption{Mode reordering: corrective vs.\ destructive (F6).}
+\label{fig:reorder}
+\end{figure}
+
+\subsection{Variance, transfer, precision, downstream (Q4)}
+\label{sec:results-support}
+
+Moment decomposition (\cref{fig:variance}; Table~T3): item and model dominate;
+item\,$\times$\,config share is $0.48\%$ (GSM8K) and $0.13\%$ (MATH-500), so
+\textbf{P1 is unsupported}---ceiling gaps need not imply a large crossed variance
+share when mass shifts near the decision boundary. Transfer/overlap panels and
+Symbolic spreads are in \cref{app:extra-figs} (F2, F3, F7) and Tables~T4--T6.
+GSM-Symbolic lacks a fully crossed four-model design (no Llama), so its variance
+block is omitted.
+
+\paragraph{Precision (P7).}
+On MATH-500, 4-bit drops mean $\pmode$ sharply vs.\ fp16
+($\Delta\approx -16$\,pp pooled in T7) while item\,$\times$\,config share moves by
+${<}0.2$\,pp. $\rdis$ is missing on the 4-bit arm in this draft, so P7 is
+\textbf{unsupported} pending camera-ready reliability (\cref{fig:precision}).
+
+\paragraph{Downstream (P6).}
+Table~T6: where adaptive gains are reportable, transferring difficulty from
+another configuration often retains ${<}1$ of the aware-allocation gain
+(sometimes negative on 1.5B GSM8K; $\approx 0.94$ on 3B GSM8K).
+
+% ============================================================================
+\section{Analysis}
+\label{sec:analysis}
+% ============================================================================
+
+\paragraph{Susceptible items.}
+Reorderings concentrate on small-margin items (\cref{fig:reorder}). Large-margin
+items almost never change mode under our core prompts.
+
+\paragraph{Why CDV fails despite reordering.}
+Destructive transitions ($6.4\%$) exceed corrective ($4.0\%$): configuration
+changes often promote a wrong class into the plurality. Diversifying elicitation
+without a verifier therefore need not raise $\pmode$.
+
+\paragraph{Scale and shift.}
+P4 spreads are non-monotone in size (3B GSM8K $0.5$\,pp vs.\ 1.5B/7B $6.5$\,pp).
+Moment item\,$\times$\,config shares stay ${<}1\%$. GSM-Symbolic shows the
+largest spreads (up to $13.3$\,pp); we treat it as a ceiling stress test, not a
+second GLMM.
+
+\paragraph{Identifiability gap remains.}
+Oracle-coverage / oracle-best-single rows in Table~T5 remain well above SC and
+CDV; configuration diversification alone does not close the gap of
+\citet{bay2026modal}.
+
+\paragraph{Compatibility with small interaction shares.}
+Large $\pmode$ gaps with tiny item\,$\times$\,config variance shares are
+compatible when configuration reorders mass near the decision boundary rather
+than inducing a large crossed random effect.
+
+% ============================================================================
+\section{Limitations}
+\label{sec:limitations}
+% ============================================================================
+
+\begin{itemize}\itemsep1pt
+  \item \textbf{Scale.} Models fit on $\le 2\times$16\,GB GPUs; frontier behaviour
+    may differ.
+  \item \textbf{Configuration sample.} Three core prompts are not a census;
+    estimates are conditional on $\{c_0,c_1,c_2\}$.
+  \item \textbf{Semantics preservation} is argued via axes that avoid rewriting
+    the problem; residual task shift is possible.
+  \item \textbf{Finite $N$.} $N{=}24$ (mostly); seed arm corrects noise only as
+    far as replicates allow. O2 replaces some MATH-500 3B cells with $N{=}64$.
+  \item \textbf{Benchmarks.} MATH-500/Symbolic lead; GSM8K is secondary
+    (contamination).
+  \item \textbf{Canonicalisation.} Symbolic checker errors enter $\pmode$; we
+    log extraction failures.
+  \item \textbf{Draft statistics.} Checked-in artefacts used
+    \texttt{--skip-glmm --n-bootstrap 0}. Camera-ready should rerun with GLMM and
+    bootstrap before treating CIs / P1 nulls as final.
+  \item \textbf{P7.} 4-bit $\rdis$ unavailable in draft; share gate alone is
+    insufficient to call P7 supported.
+\end{itemize}
+
+% ============================================================================
+\section{Conclusion}
+\label{sec:conclusion}
+% ============================================================================
+
+On a fully crossed sampled-CoT grid, the self-consistency ceiling is not a model
+constant: plug-in $\pmode$ moves by more than three points across
+semantics-preserving elicitation configurations on several
+model$\times$benchmark cells, with the largest spreads on GSM-Symbolic.
+Mode reordering is real and small-margin-concentrated, but destructive
+transitions dominate corrective ones. Pre-registered configuration-diversified
+voting does not raise the modal plateau above single-configuration
+self-consistency at matched tokens. Practitioners should report ceilings for a
+\emph{model--prompt pair}; diversifying prompts without verification is not a
+substitute for depth or for better selection.
+
+\section*{Impact Statement}
+This work studies evaluation and test-time aggregation for open-weight math
+reasoning models. Potential impacts are improved honesty in reporting reasoning
+benchmarks and more careful use of difficulty labels in curricula. We do not
+release new high-risk capabilities; experiments are inference-only on public
+benchmarks. Misuse risk is low relative to generative systems; the main risk is
+over-interpreting negative CDV results as ``prompts never matter'' despite P4.
+
+\section*{Reproducibility Statement}
+All experiments are inference-only on open-weight models. Harness, configs, and
+analysis code accompany the submission; artefacts reproduce via
+\texttt{scripts/split\_precision.py} then
+\texttt{python -m src.analysis.paper}. Exact run inventory: \texttt{tab1\_setup.csv}.
+Figure/table files: \texttt{paper/figures/}, \texttt{paper/tables/}.
+
+\bibliography{references}
+\bibliographystyle{icml2027}
+
+\clearpage
+\appendix
+\section{Additional Figures}
+\label{app:extra-figs}
+
+\begin{figure}[h]
+\centering
+\includegraphics[width=0.85\linewidth]{figures/fig1_variance_components.pdf}
+\caption{Moment variance components (F1; draft without GLMM).}
+\label{fig:variance}
+\end{figure}
+
+\begin{figure}[h]
+\centering
+\includegraphics[width=0.85\linewidth]{figures/fig2_transfer_scatter.pdf}
+\caption{Difficulty transfer across configurations (F2).}
+\label{fig:transfer}
+\end{figure}
+
+\begin{figure}[h]
+\centering
+\includegraphics[width=0.85\linewidth]{figures/fig3_hard_subset_overlap.pdf}
+\caption{Hard-subset overlap across configs vs.\ seeds (F3).}
+\label{fig:overlap}
+\end{figure}
+
+\begin{figure}[h]
+\centering
+\includegraphics[width=0.85\linewidth]{figures/fig7_shift.pdf}
+\caption{GSM-Symbolic shift / ceiling spreads (F7).}
+\label{fig:shift}
+\end{figure}
+
+\begin{figure}[h]
+\centering
+\includegraphics[width=0.85\linewidth]{figures/fig8_precision_control.pdf}
+\caption{fp16 vs.\ 4-bit control (F8).}
+\label{fig:precision}
+\end{figure}
+
+\input{_related_appendix}
+
+\end{document}

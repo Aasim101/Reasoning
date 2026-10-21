@@ -1,0 +1,50 @@
+.github
+.pytest_cache
+.venv
+configs
+docs
+examples
+notebooks
+paper
+paper_artefacts
+results_4bit
+results_fp16
+scripts
+src
+tests
+_diag.txt
+.gitignore
+pytest.ini
+README.md
+requirements.txt
+---
+bundle=False
+fp16=True
+fp16_count=60
+zip:D:\Users\masim\Downloads\files.zip
+zip:D:\Users\masim\Downloads\Mira Sdk (2).zip
+zip:D:\Users\masim\Downloads\Mira Sdk.zip
+zip:D:\Users\masim\Downloads\ods_py_generate_and_load_pdp_dev.zip
+zip:D:\Users\masim\Downloads\results_bundle.zip
+zip:D:\Users\masim\Downloads\Testing.zip
+zip:D:\Users\masim\Downloads\V1.zip
+zip:D:\Users\masim\Downloads\V10.zip
+zip:D:\Users\masim\Downloads\V11.zip
+zip:D:\Users\masim\Downloads\V12.zip
+zip:D:\Users\masim\Downloads\V2.zip
+zip:D:\Users\masim\Downloads\V3.zip
+zip:D:\Users\masim\Downloads\V4.zip
+zip:D:\Users\masim\Downloads\V5.zip
+zip:D:\Users\masim\Downloads\V6.zip
+zip:D:\Users\masim\Downloads\V7.zip
+zip:D:\Users\masim\Downloads\V8.5.zip
+zip:D:\Users\masim\Downloads\V8.zip
+zip:D:\Users\masim\Downloads\V9_1.zip
+zip:D:\Users\masim\Downloads\V9_3.zip
+zip:D:\Users\masim\Downloads\V9_4.zip
+zip:D:\Users\masim\Downloads\V9.0 1.zip
+zip:D:\Users\masim\Downloads\V9.0 2.zip
+zip:D:\Users\masim\Downloads\V9.0.zip
+zip:D:\Users\masim\Downloads\V9.1.zip
+zip:D:\Users\masim\Downloads\V9.2.zip
+zip:D:\Users\masim\Downloads\V9.zip

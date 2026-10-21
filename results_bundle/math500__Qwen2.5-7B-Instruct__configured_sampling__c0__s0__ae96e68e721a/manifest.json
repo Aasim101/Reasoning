@@ -1,0 +1,205 @@
+{
+  "run_name": "math500__Qwen2.5-7B-Instruct__configured_sampling__c0__s0",
+  "config_hash": "ae96e68e721a",
+  "config": {
+    "model": {
+      "name_or_path": "Qwen/Qwen2.5-7B-Instruct",
+      "backend": "hf",
+      "dtype": "float16",
+      "load_in_4bit": false,
+      "bnb_quant_type": "nf4",
+      "bnb_double_quant": true,
+      "bnb_compute_dtype": "float16",
+      "device_map": "auto",
+      "trust_remote_code": false,
+      "revision": null,
+      "local_path": null,
+      "use_chat_template": true,
+      "max_model_len": null,
+      "tensor_parallel_size": 1,
+      "gpu_memory_utilization": 0.9,
+      "enforce_eager": false,
+      "attn_implementation": null,
+      "mock_accuracy": 0.6,
+      "mock_latency_s": 0.0
+    },
+    "generation": {
+      "max_new_tokens": 1024,
+      "temperature": 0.8,
+      "top_p": 1.0,
+      "top_k": -1,
+      "repetition_penalty": 1.0,
+      "stop": [],
+      "logprobs": false,
+      "batch_size": 8
+    },
+    "data": {
+      "name": "math500",
+      "split": "test",
+      "subset": null,
+      "subsample": 200,
+      "subsample_seed": 1234,
+      "subsample_protocol": "legacy",
+      "tier": "A",
+      "item_ids_dir": "data",
+      "paraphrase_file": null,
+      "local_dir": null,
+      "shard_index": 0,
+      "num_shards": 1
+    },
+    "strategy": {
+      "name": "configured_sampling",
+      "params": {
+        "n_samples": 24,
+        "batch_calls": true
+      }
+    },
+    "elicitation": {
+      "id": "c0",
+      "overrides": {}
+    },
+    "runtime": {
+      "out_dir": "/kaggle/working/results",
+      "run_name": null,
+      "seed": 0,
+      "time_budget_hours": 8.0,
+      "reserve_minutes": 10.0,
+      "flush_every": 10,
+      "max_examples": null,
+      "log_level": "INFO",
+      "gpu_hour_multiplier": 1.0,
+      "continue_on_error": true,
+      "grade_after_run": true,
+      "log_every": 1,
+      "trace_policy": "full",
+      "trace_max_chars": 400,
+      "compress_results": false
+    },
+    "tags": {
+      "paper_cell": "math500_baseline"
+    }
+  },
+  "schema_version": 1,
+  "created_at": "2026-08-16T06:05:42+00:00",
+  "updated_at": "2026-08-16T15:37:12+00:00",
+  "n_total": 200,
+  "n_completed": 200,
+  "n_errors": 0,
+  "elapsed_seconds": 33983.700000000004,
+  "gpu_hours": 9.4399,
+  "tokens_prompt": 20445,
+  "tokens_completion": 2702429,
+  "status": "complete",
+  "resume_command": "python -m src.runner --config configs/math500_cot_zeroshot.yaml --set strategy.name=configured_sampling --set strategy.params.n_samples=24 --set strategy.params.batch_calls=true --set elicitation.id=c0 --set generation.temperature=0.8 --set generation.max_new_tokens=1024 --set model.dtype=float16 --set model.device_map=auto --set model.name_or_path=Qwen/Qwen2.5-7B-Instruct --set model.backend=hf --set runtime.seed=0 --set data.subsample=200 --set runtime.time_budget_hours=8.0 --set runtime.out_dir=/kaggle/working/results --set generation.batch_size=8",
+  "sessions": [
+    {
+      "started_at": "2026-08-16T06:07:29+00:00",
+      "ended_at": "2026-08-16T13:49:01+00:00",
+      "n_completed": 162,
+      "n_errors": 0,
+      "elapsed_seconds": 27691.9,
+      "gpu_hours": 7.6922,
+      "tokens_prompt": 16559,
+      "tokens_completion": 2203158,
+      "stop_reason": "time_budget",
+      "hardware": {
+        "torch_version": "2.10.0+cu128",
+        "cuda_available": true,
+        "cuda_version": "12.8",
+        "n_gpus": 2,
+        "gpu_names": [
+          "Tesla T4",
+          "Tesla T4"
+        ],
+        "gpu_capabilities": [
+          "75",
+          "75"
+        ],
+        "per_gpu_vram_gb": [
+          14.56,
+          14.56
+        ],
+        "per_gpu_free_gb": [
+          14.36,
+          14.36
+        ],
+        "total_vram_gb": 29.12,
+        "supports_bf16": false,
+        "cpu_count": 4,
+        "ram_gb": 31.3,
+        "disk_free_gb": 19.3,
+        "is_kaggle": true,
+        "driver": null
+      },
+      "backend": {
+        "backend": "hf",
+        "model": "Qwen/Qwen2.5-7B-Instruct",
+        "revision": null,
+        "dtype": "torch.float16",
+        "load_in_4bit": false,
+        "quant_type": null,
+        "device_map": "auto",
+        "device": "cuda:0",
+        "n_params": 7615616512,
+        "batch_size": 8,
+        "use_chat_template": true,
+        "hardware": "2x GPU [Tesla T4 15GB sm75, Tesla T4 15GB sm75] total 29 GB VRAM, bf16=NO, cuda=12.8, torch=2.10.0+cu128"
+      }
+    },
+    {
+      "started_at": "2026-08-16T13:52:20+00:00",
+      "ended_at": "2026-08-16T15:37:12+00:00",
+      "n_completed": 38,
+      "n_errors": 0,
+      "elapsed_seconds": 6291.8,
+      "gpu_hours": 1.7477,
+      "tokens_prompt": 3886,
+      "tokens_completion": 499271,
+      "stop_reason": "completed",
+      "hardware": {
+        "torch_version": "2.10.0+cu128",
+        "cuda_available": true,
+        "cuda_version": "12.8",
+        "n_gpus": 2,
+        "gpu_names": [
+          "Tesla T4",
+          "Tesla T4"
+        ],
+        "gpu_capabilities": [
+          "75",
+          "75"
+        ],
+        "per_gpu_vram_gb": [
+          14.56,
+          14.56
+        ],
+        "per_gpu_free_gb": [
+          14.36,
+          14.36
+        ],
+        "total_vram_gb": 29.12,
+        "supports_bf16": false,
+        "cpu_count": 4,
+        "ram_gb": 31.3,
+        "disk_free_gb": 19.2,
+        "is_kaggle": true,
+        "driver": null
+      },
+      "backend": {
+        "backend": "hf",
+        "model": "Qwen/Qwen2.5-7B-Instruct",
+        "revision": null,
+        "dtype": "torch.float16",
+        "load_in_4bit": false,
+        "quant_type": null,
+        "device_map": "auto",
+        "device": "cuda:0",
+        "n_params": 7615616512,
+        "batch_size": 8,
+        "use_chat_template": true,
+        "hardware": "2x GPU [Tesla T4 15GB sm75, Tesla T4 15GB sm75] total 29 GB VRAM, bf16=NO, cuda=12.8, torch=2.10.0+cu128"
+      }
+    }
+  ],
+  "notes": {}
+}

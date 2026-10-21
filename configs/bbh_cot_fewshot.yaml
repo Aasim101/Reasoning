@@ -1,0 +1,24 @@
+# BIG-Bench Hard, one subset per run. Swap the subset with
+#   --set data.subset=logical_deduction_seven_objects
+# Each BBH subset has only ~250 items, so run a few subsets rather than
+# subsampling one heavily.
+defaults: base.yaml
+
+data:
+  name: bbh
+  split: test
+  subset: date_understanding
+  subsample: 150
+  subsample_seed: 1234
+
+strategy:
+  name: cot_fewshot
+  params:
+    n_shots: 3
+
+generation:
+  max_new_tokens: 512
+  temperature: 0.0
+
+tags:
+  paper_cell: bbh

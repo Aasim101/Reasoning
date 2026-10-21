@@ -1,0 +1,21 @@
+# MuSR: multi-step soft reasoning over long narratives. Prompts are long, so
+# prompt tokens dominate the token budget here and batch_size must come down.
+defaults: base.yaml
+
+data:
+  name: musr
+  split: test
+  subset: murder_mysteries
+  subsample: 100
+  subsample_seed: 1234
+
+strategy:
+  name: cot_zeroshot
+
+generation:
+  max_new_tokens: 768
+  temperature: 0.0
+  batch_size: 2
+
+tags:
+  paper_cell: musr

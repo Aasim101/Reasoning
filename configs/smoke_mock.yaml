@@ -1,0 +1,41 @@
+# CPU-only smoke test: no model, no network, no GPU quota spent.
+# Runs the whole pipeline (dataset -> strategy -> JSONL -> grading) in seconds.
+#
+#   python -m src.runner --config configs/smoke_mock.yaml
+#
+# Run this FIRST in every Kaggle session. If it fails, the bug is in the harness
+# and not worth GPU minutes.
+defaults: base.yaml
+
+model:
+  name_or_path: mock/tiny
+  backend: mock
+  mock_accuracy: 0.6
+  mock_latency_s: 0.0
+
+generation:
+  max_new_tokens: 128
+  batch_size: 4
+
+data:
+  name: toy
+  split: test
+  subset: null
+  subsample: null
+
+strategy:
+  name: self_consistency
+  params:
+    k: 4
+    temperature: 0.7
+
+runtime:
+  out_dir: results_smoke
+  run_name: smoke_mock
+  time_budget_hours: 0.05
+  reserve_minutes: 0.1
+  flush_every: 2
+  log_every: 4
+
+tags:
+  paper_cell: smoke

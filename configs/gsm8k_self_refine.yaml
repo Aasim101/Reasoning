@@ -1,0 +1,26 @@
+# Sequential test-time compute: draft, self-verify, revise.
+# Multi-turn, so each example costs several dependent calls and cannot be
+# batched as effectively as self-consistency; expect lower GPU utilisation.
+defaults: base.yaml
+
+data:
+  name: gsm8k
+  split: test
+  subset: main
+  subsample: 200
+  subsample_seed: 1234
+
+strategy:
+  name: self_refine
+  params:
+    n_rounds: 1
+    verify: true
+    stop_when_verified: true
+    temperature: 0.0
+
+generation:
+  max_new_tokens: 512
+  temperature: 0.0
+
+tags:
+  paper_cell: gsm8k_self_refine

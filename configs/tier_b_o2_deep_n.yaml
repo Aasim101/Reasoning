@@ -1,0 +1,31 @@
+defaults: base.yaml
+
+# Tier B O2 (review §6.3): 3B, MATH-500, c0–c3, N=64 deep sampling.
+model:
+  name_or_path: Qwen/Qwen2.5-3B-Instruct
+  backend: auto
+  dtype: float16
+  device_map: auto
+
+data:
+  name: math500
+  split: test
+  subsample: 200
+  subsample_seed: 20260729
+
+generation:
+  max_new_tokens: 1024
+
+strategy:
+  name: configured_sampling
+  params:
+    n_samples: 64
+    batch_calls: true
+
+elicitation:
+  id: c0
+
+tags:
+  paper_cell: O2_deep_n
+  tier: B
+  configs: [c0, c1, c2, c3]

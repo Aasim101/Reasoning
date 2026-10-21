@@ -1,0 +1,2 @@
+D:\Users\masim\Downloads\Testing\.venv\Lib\site-packages\sympy\parsing\latex\_parse_latex_antlr.py:23: UserWarning: antlr4.error.ErrorListener module is not installed
+  ErrorListener = import_module('antlr4.error.ErrorListener',
