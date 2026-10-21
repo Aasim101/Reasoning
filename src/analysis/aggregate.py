@@ -66,15 +66,30 @@ CSV_COLUMNS = (
 
 
 def find_run_dirs(results_dir: str | Path) -> List[Path]:
-    """Every directory under `results_dir` that looks like a run."""
+    """Find run directories, including runs exposed through symlinks."""
     root = Path(results_dir)
     if not root.exists():
         return []
-    found = {
-        p.parent
-        for pattern in ("graded.jsonl", "results.jsonl", "manifest.json")
-        for p in root.glob(pattern)
-    }
+
+    found = set()
+
+    # Check files directly inside each run directory, including symlinked runs.
+    for run_dir in root.iterdir():
+        if not run_dir.is_dir():
+            continue
+
+        resolved = run_dir.resolve()
+        if any(
+            (resolved / filename).is_file()
+            for filename in ("graded.jsonl", "results.jsonl", "manifest.json")
+        ):
+            found.add(run_dir)
+
+    # Also preserve discovery of ordinary, nested result directories.
+    for pattern in ("**/graded.jsonl", "**/results.jsonl", "**/manifest.json"):
+        for path in root.glob(pattern):
+            found.add(path.parent)
+
     return sorted(found)
 
 
