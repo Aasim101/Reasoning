@@ -72,7 +72,7 @@ def find_run_dirs(results_dir: str | Path) -> List[Path]:
         return []
     found = {
         p.parent
-        for pattern in ("**/graded.jsonl", "**/results.jsonl", "**/manifest.json")
+        for pattern in ("graded.jsonl", "results.jsonl", "manifest.json")
         for p in root.glob(pattern)
     }
     return sorted(found)
